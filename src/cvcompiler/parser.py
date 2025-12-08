@@ -1,7 +1,7 @@
 """Parser for CV markdown format."""
 
 import re
-from typing import Iterator
+from collections.abc import Iterator
 
 from .models import (
     CV,
@@ -15,10 +15,14 @@ from .models import (
     SkillCategory,
 )
 
-
-def _compute_initials(name: str) -> str:
-    """Extract initials from full name."""
-    return "".join(word[0].upper() for word in name.split() if word)
+# Regex patterns
+HEADER_PATTERN = re.compile(r"(.+?) @ \[(.+?)\]\((.+?)\)")
+PERIOD_LOCATION_PATTERN = re.compile(r"^\*(.+?)\*\s*-\s*(.+)$")
+PERIOD_ONLY_PATTERN = re.compile(r"^\*(.+?)\*$")
+IMAGE_PATTERN = re.compile(r"!\[.*?\]\((.+?)\)")
+DATE_PATTERN = re.compile(r"(\w+)\s*=\s*(\d{4}-\d{2}-\d{2})")
+LANGUAGE_PATTERN = re.compile(r"- (.+?): (.+?) \((\d+)%\)")
+LINK_PATTERN = re.compile(r"\[(.+?)\]\((.+?)\)")
 
 
 def parse_cv(content: str) -> CV:
@@ -37,96 +41,170 @@ def parse_cv(content: str) -> CV:
     )
 
 
+# -- Section splitting --
+
+
 def _split_sections(content: str) -> dict[str, str]:
-    """Split markdown into top-level sections."""
+    """Split markdown into top-level (##) sections."""
     sections: dict[str, str] = {}
     current_section = ""
-    current_content: list[str] = []
+    current_lines: list[str] = []
 
     for line in content.split("\n"):
         if line.startswith("## ") and not line.startswith("### "):
             if current_section:
-                sections[current_section] = "\n".join(current_content)
+                sections[current_section] = "\n".join(current_lines)
             current_section = line[3:].strip()
-            current_content = []
+            current_lines = []
         else:
-            current_content.append(line)
+            current_lines.append(line)
 
     if current_section:
-        sections[current_section] = "\n".join(current_content)
+        sections[current_section] = "\n".join(current_lines)
 
     return sections
 
 
+def _split_blocks(content: str, prefix: str) -> list[str]:
+    """Split content into blocks starting with a markdown heading prefix."""
+    pattern = rf"(?=^{re.escape(prefix)} )"
+    return [
+        b
+        for b in re.split(pattern, content, flags=re.MULTILINE)
+        if b.startswith(prefix)
+    ]
+
+
+# -- Profile --
+
+
+def _compute_initials(name: str) -> str:
+    return "".join(word[0].upper() for word in name.split() if word)
+
+
 def _parse_profile(content: str) -> Profile:
-    """Extract profile info with date placeholders."""
-    lines = [line.strip() for line in content.split("\n") if line.strip()]
+    lines = [ln.strip() for ln in content.split("\n") if ln.strip()]
 
     name = ""
     headline = ""
-    birth_date = ""
-    career_start = ""
+    dates: dict[str, str] = {}
 
     for line in lines:
+        # Skip images
+        if line.startswith("!["):
+            continue
         clean = line.replace("**", "").strip()
-        if line.startswith("**") and not headline and "•" not in line and "years" not in line:
+        if line.startswith("**") and not headline and "•" not in line:
             name = clean
         elif "•" in clean:
             headline = clean
-        elif match := re.match(r"birth_date\s*=\s*(\d{4}-\d{2}-\d{2})", line):
-            birth_date = match.group(1)
-        elif match := re.match(r"career_start\s*=\s*(\d{4}-\d{2}-\d{2})", line):
-            career_start = match.group(1)
+        elif match := DATE_PATTERN.match(line):
+            dates[match.group(1)] = match.group(2)
 
-    initials = _compute_initials(name)
-    return Profile(name=name, initials=initials, headline=headline, birth_date=birth_date, career_start=career_start)
+    return Profile(
+        name=name,
+        initials=_compute_initials(name),
+        headline=headline,
+        birth_date=dates.get("birth_date", ""),
+        career_start=dates.get("career_start", ""),
+    )
+
+
+# -- Experience --
+
+
+def _parse_period_location(lines: list[str]) -> tuple[str, str]:
+    """Extract period and location from italic line: *period* - location"""
+    for line in lines:
+        stripped = line.strip()
+        if match := PERIOD_LOCATION_PATTERN.match(stripped):
+            return match.group(1).strip(), match.group(2).strip()
+        if match := PERIOD_ONLY_PATTERN.match(stripped):
+            return match.group(1).strip(), ""
+    return "", ""
+
+
+def _is_paragraph_line(line: str) -> bool:
+    """Check if line is plain paragraph text (not metadata, heading, bullet, or image)."""
+    stripped = line.strip()
+    return bool(
+        stripped
+        and not stripped.startswith("*")
+        and not stripped.startswith("#")
+        and not stripped.startswith("-")
+        and not stripped.startswith("![")
+    )
+
+
+def _extract_experience_content(lines: list[str]) -> tuple[list[str], list[str]]:
+    """Extract description and tech_stack from experience block.
+
+    Returns (description, tech_stack) where description is a list of:
+    - Paragraphs (plain text lines), or
+    - Bullet points (lines starting with '- ')
+
+    Tech stack is extracted from #### Tech stack section if present.
+    Content AFTER #### Tech stack is NOT included in description.
+    """
+    description: list[str] = []
+    tech_stack: list[str] = []
+    in_tech_section = False
+
+    for line in lines:
+        stripped = line.strip()
+
+        # Detect #### Tech stack section start
+        if stripped.startswith("#### Tech stack"):
+            in_tech_section = True
+            continue
+
+        # Detect any other #### section (stops tech stack parsing)
+        if stripped.startswith("#### "):
+            in_tech_section = False
+            continue
+
+        # Parse tech stack bullets
+        if in_tech_section and stripped.startswith("- "):
+            tech_stack.append(stripped[2:])
+            continue
+
+        # Skip if we're in tech section but not a bullet (empty lines, etc.)
+        if in_tech_section:
+            continue
+
+        # Collect description: paragraphs or bullet points (before any #### section)
+        if _is_paragraph_line(line):
+            description.append(stripped)
+        elif stripped.startswith("- "):
+            description.append(stripped[2:])
+
+    return description, tech_stack
 
 
 def _parse_experiences(content: str) -> list[Experience]:
-    """Parse experience section into structured data."""
     experiences: list[Experience] = []
-    exp_blocks = re.split(r"(?=^### )", content, flags=re.MULTILINE)
 
-    for block in exp_blocks:
-        if not block.strip() or not block.startswith("### "):
-            continue
-
+    for block in _split_blocks(content, "###"):
         lines = block.split("\n")
-        header = lines[0][4:].strip()
+        header = lines[0][4:].strip()  # Remove "### "
 
-        # Parse "Title @ [Company](url)"
-        match = re.match(r"(.+?) @ \[(.+?)\]\((.+?)\)", header)
+        match = HEADER_PATTERN.match(header)
         if not match:
             continue
 
         title, company, company_url = match.groups()
+        period, location = _parse_period_location(lines[1:])
 
-        # Parse period and location
-        period, location = "", ""
-        for line in lines[1:]:
-            if line.startswith("*") and "-" in line:
-                parts = line.strip("*").split(" - ")
-                period = parts[0].strip()
-                location = parts[1].strip() if len(parts) > 1 else ""
-                break
+        # Check for projects (##### headings)
+        has_projects = "##### " in block
+        projects = list(_parse_projects(block)) if has_projects else []
 
-        # Description (non-project text)
-        description = ""
-        for line in lines[1:]:
-            if (
-                line.strip()
-                and not line.startswith("*")
-                and not line.startswith("#")
-                and not line.startswith("-")
-            ):
-                description = line.strip()
-                break
-
-        # Tech stack at experience level
-        tech_stack = _extract_tech_stack(block)
-
-        # Parse projects
-        projects = list(_parse_projects(block))
+        # Extract description and tech_stack (only relevant for experiences without projects)
+        if has_projects:
+            description: list[str] = []
+            tech_stack: list[str] = []
+        else:
+            description, tech_stack = _extract_experience_content(lines[1:])
 
         experiences.append(
             Experience(
@@ -136,7 +214,7 @@ def _parse_experiences(content: str) -> list[Experience]:
                 period=period,
                 location=location,
                 description=description,
-                tech_stack=tech_stack if not projects else [],
+                tech_stack=tech_stack,
                 projects=projects,
             )
         )
@@ -144,49 +222,51 @@ def _parse_experiences(content: str) -> list[Experience]:
     return experiences
 
 
+# -- Projects --
+
+
+def _parse_bullet_content(lines: list[str]) -> tuple[list[str], list[str], list[str]]:
+    """Parse structured bullet content into description, role, and tech_stack."""
+    description: list[str] = []
+    role: list[str] = []
+    tech_stack: list[str] = []
+    current = description  # Default target
+
+    for line in lines:
+        stripped = line.strip()
+
+        # Category headers
+        if stripped == "- Role":
+            current = role
+        elif stripped == "- Tech stack":
+            current = tech_stack
+        # Top-level bullets (not sub-items, not category headers)
+        elif stripped.startswith("- ") and not stripped.endswith(":"):
+            if current is description:
+                description.append(stripped[2:])
+        # Sub-items (indented with tab or spaces)
+        elif line.startswith("\t") or line.startswith("  "):
+            item = stripped.lstrip("- ").strip()
+            if item:
+                current.append(item)
+
+    return description, role, tech_stack
+
+
 def _parse_projects(block: str) -> Iterator[Project]:
-    """Parse projects within an experience block."""
-    project_blocks = re.split(r"(?=^##### )", block, flags=re.MULTILINE)
+    """Parse ##### project blocks within an experience."""
+    for proj_block in _split_blocks(block, "#####"):
+        lines = proj_block.split("\n")
+        title = lines[0][6:].strip()  # Remove "##### "
 
-    for proj in project_blocks:
-        if not proj.startswith("##### "):
-            continue
-
-        lines = proj.split("\n")
-        title = lines[0][6:].strip()
-
-        # Extract image
+        # Extract image URL
         image = ""
-        for line in lines:
-            if line.strip().startswith("!["):
-                match = re.search(r"!\[.*?\]\((.+?)\)", line)
-                if match:
-                    image = match.group(1)
+        for line in lines[1:]:
+            if match := IMAGE_PATTERN.search(line.strip()):
+                image = match.group(1)
                 break
 
-        # Parse bullet points
-        description: list[str] = []
-        role: list[str] = []
-        tech_stack: list[str] = []
-        current_category = "description"
-
-        for line in lines[1:]:
-            stripped = line.strip()
-            if stripped == "- Role":
-                current_category = "role"
-            elif stripped == "- Tech stack":
-                current_category = "tech_stack"
-            elif stripped.startswith("- ") and not stripped.endswith(":"):
-                if current_category == "description":
-                    description.append(stripped[2:])
-            elif stripped.startswith("\t- ") or stripped.startswith("  - "):
-                item = stripped.lstrip("\t- ").lstrip("  - ").strip("- ")
-                if current_category == "role":
-                    role.append(item)
-                elif current_category == "tech_stack":
-                    tech_stack.append(item)
-                elif current_category == "description":
-                    description.append(item)
+        description, role, tech_stack = _parse_bullet_content(lines[1:])
 
         yield Project(
             title=title,
@@ -197,44 +277,23 @@ def _parse_projects(block: str) -> Iterator[Project]:
         )
 
 
-def _extract_tech_stack(content: str) -> list[str]:
-    """Extract tech stack from #### Tech stack section."""
-    if "#### Tech stack" not in content:
-        return []
-
-    parts = content.split("#### Tech stack")
-    if len(parts) < 2:
-        return []
-
-    stack_section = parts[1].split("####")[0]
-    items = []
-    for line in stack_section.split("\n"):
-        if line.strip().startswith("- "):
-            items.append(line.strip()[2:])
-    return items
+# -- Skills --
 
 
 def _parse_skills(content: str) -> list[SkillCategory]:
-    """Parse skills section into categories."""
     categories: list[SkillCategory] = []
-    cat_blocks = re.split(r"(?=^### )", content, flags=re.MULTILINE)
 
-    for block in cat_blocks:
-        if not block.startswith("### "):
-            continue
-
+    for block in _split_blocks(content, "###"):
         lines = block.split("\n")
         title = lines[0][4:].strip()
 
-        # Extract image
         image = ""
         items: list[str] = []
+
         for line in lines[1:]:
             stripped = line.strip()
-            if stripped.startswith("!["):
-                match = re.search(r"!\[.*?\]\((.+?)\)", stripped)
-                if match:
-                    image = match.group(1)
+            if match := IMAGE_PATTERN.search(stripped):
+                image = match.group(1)
             elif stripped.startswith("- "):
                 items.append(stripped[2:])
 
@@ -243,58 +302,50 @@ def _parse_skills(content: str) -> list[SkillCategory]:
     return categories
 
 
+# -- Certifications --
+
+
 def _parse_certifications(content: str) -> list[Certification]:
-    """Parse certification section."""
     certs: list[Certification] = []
-    cert_blocks = re.split(r"(?=^### )", content, flags=re.MULTILINE)
 
-    for block in cert_blocks:
-        if not block.startswith("### "):
-            continue
-
+    for block in _split_blocks(content, "###"):
         lines = block.split("\n")
         title = lines[0][4:].strip()
         description = " ".join(
-            line.strip()
-            for line in lines[1:]
-            if line.strip() and not line.startswith("#")
+            ln.strip() for ln in lines[1:] if ln.strip() and not ln.startswith("#")
         )
-
         certs.append(Certification(title=title, description=description))
 
     return certs
 
 
+# -- Education --
+
+
 def _parse_education(content: str) -> list[Education]:
-    """Parse education section."""
     entries: list[Education] = []
-    edu_blocks = re.split(r"(?=^### )", content, flags=re.MULTILINE)
 
-    for block in edu_blocks:
-        if not block.startswith("### "):
-            continue
-
+    for block in _split_blocks(content, "###"):
         lines = block.split("\n")
         header = lines[0][4:].strip()
 
-        # Parse "Degree @ [Institution](url)"
-        match = re.match(r"(.+?) @ \[(.+?)\]\((.+?)\)", header)
+        match = HEADER_PATTERN.match(header)
         if not match:
             continue
 
         degree, institution, institution_url = match.groups()
 
-        # Parse period and location
+        # Period and location from line like "2013-2016 - Mons, Belgium"
         period, location = "", ""
         for line in lines[1:]:
             stripped = line.strip()
             if re.match(r"^\d{4}", stripped):
-                parts = stripped.split(" - ")
+                parts = stripped.split(" - ", 1)
                 period = parts[0].strip()
                 location = parts[1].strip() if len(parts) > 1 else ""
                 break
 
-        # Topics and distinction
+        # Topics (bullet points) and distinction
         topics: list[str] = []
         distinction = ""
         for line in lines[1:]:
@@ -319,18 +370,14 @@ def _parse_education(content: str) -> list[Education]:
     return entries
 
 
+# -- Languages --
+
+
 def _parse_languages(content: str) -> list[Language]:
-    """Parse languages section."""
     languages: list[Language] = []
 
     for line in content.split("\n"):
-        stripped = line.strip()
-        if not stripped.startswith("- "):
-            continue
-
-        # Parse "- French: native (100%)"
-        match = re.match(r"- (.+?): (.+?) \((\d+)%\)", stripped)
-        if match:
+        if match := LANGUAGE_PATTERN.match(line.strip()):
             languages.append(
                 Language(
                     name=match.group(1),
@@ -342,8 +389,10 @@ def _parse_languages(content: str) -> list[Language]:
     return languages
 
 
+# -- Links (Contact/Socials) --
+
+
 def _parse_links(content: str) -> list[Link]:
-    """Parse links section (Contact/Socials)."""
     links: list[Link] = []
 
     for line in content.split("\n"):
@@ -351,10 +400,8 @@ def _parse_links(content: str) -> list[Link]:
         if not stripped.startswith("- "):
             continue
 
-        # Parse markdown link or email
-        link_match = re.search(r"\[(.+?)\]\((.+?)\)", stripped)
-        if link_match:
-            links.append(Link(name=link_match.group(1), url=link_match.group(2)))
+        if match := LINK_PATTERN.search(stripped):
+            links.append(Link(name=match.group(1), url=match.group(2)))
         elif "@" in stripped:
             email = stripped[2:].strip()
             links.append(Link(name=email, url=f"mailto:{email}"))

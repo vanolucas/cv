@@ -26,7 +26,20 @@
                         </div>
                     </div>
                     {% if exp.description %}
-                    <p class="mt-4 text-white/70">{{ exp.description }}</p>
+                    <div class="mt-4 text-white/70">
+                        {% if exp.description|length == 1 %}
+                        <p>{{ exp.description[0] }}</p>
+                        {% else %}
+                        <ul class="space-y-1">
+                            {% for item in exp.description %}
+                            <li class="flex items-start gap-2">
+                                <span class="text-cyan-400 mt-1">•</span>
+                                <span>{{ item }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
                     {% endif %}
                     {% if exp.tech_stack %}
                     <div class="mt-4 flex flex-wrap gap-2">

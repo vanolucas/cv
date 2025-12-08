@@ -19,7 +19,7 @@ class Experience:
     company_url: str
     period: str
     location: str
-    description: str
+    description: list[str]  # Paragraphs or bullet points
     tech_stack: list[str]
     projects: list[Project]
 

@@ -109,7 +109,9 @@ Data marts and reporting for Sales, Aftersales, CRM covering a broad variety of 
 - T-SQL
 - Azure Data Factory
 - Powershell
-- Power BI, IBM Cognos, QlikView
+- Power BI
+- IBM Cognos
+- QlikView
 - Java
 
 ### Data Consultant @ [AKABI](https://www.akabi.eu/)

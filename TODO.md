@@ -3,8 +3,13 @@
 - [x] Feat: copyright year autoupdate
 - [x] Feat: remove "Crafted with passion"
 - [x] Fix: years calculation
-- [ ] Feat: blur under elements for readability
-- [ ] Fix: `*` in date ranges
+- [x] Fix: missing some text in Experience cards
+- [x] Fix: missing AKABI content
+- [x] Fix: parsing `![](img/amelia_chatbot.jpg)`
+- [x] Fix: `*` in date ranges
+- [ ] Fix: missing tech stack tags in projects
+- [ ] Fix: space after years
+- [ ] Feat: blur under elements for readability (currently elements behind cards and bars look too sharp)
 - [ ] Feat: highlight currently selected section in top bar
 - [ ] Fix: small horizontal scroll when page not yet fully scrolled on mobile
 - [ ] Feat: full name in profile + footer
