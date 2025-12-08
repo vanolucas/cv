@@ -1,0 +1,22 @@
+<!-- Languages Section -->
+<section id="languages" class="py-24 px-4">
+    <div class="max-w-4xl mx-auto">
+        <h2 class="section-title">Languages</h2>
+
+        <div class="glass-card p-8">
+            <div class="space-y-8">
+                {% for lang in cv.languages %}
+                <div class="language-item" data-aos="fade-right" data-aos-delay="{{ loop.index * 100 }}">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-lg font-medium text-white">{{ lang.name }}</span>
+                        <span class="text-sm text-white/60">{{ lang.level }}</span>
+                    </div>
+                    <div class="language-bar-container">
+                        <div class="language-bar" style="--percentage: {{ lang.percentage }}%;" data-percentage="{{ lang.percentage }}"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucas Vano - CV</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        {% include 'styles.css' %}
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        glass: {
+                            light: 'rgba(255, 255, 255, 0.1)',
+                            medium: 'rgba(255, 255, 255, 0.15)',
+                            dark: 'rgba(0, 0, 0, 0.2)',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-950 text-white font-sans antialiased">
+    <!-- Animated background -->
+    <div class="fixed inset-0 -z-10 overflow-hidden">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="noise-overlay"></div>
+    </div>
+
+    <!-- Navigation -->
+    {% include 'nav.html' %}
+
+    <!-- Main content -->
+    <main>
+        {% include 'profile.html' %}
+        {% include 'experience.html' %}
+        {% include 'skills.html' %}
+        {% include 'certifications.html' %}
+        {% include 'education.html' %}
+        {% include 'languages.html' %}
+        {% include 'contact.html' %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-8 text-center text-white/40 text-sm">
+        <div class="glass-card inline-block px-6 py-3">
+            <p>© <span id="year"></span> Lucas Vanoverberghe.</p>
+        </div>
+    </footer>
+
+    <script>
+        {% include 'scripts.js' %}
+    </script>
+</body>
+</html>

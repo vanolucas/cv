@@ -1,0 +1,53 @@
+<!-- Profile / Hero Section -->
+<section id="profile" class="min-h-screen flex items-center justify-center relative px-4 pt-20">
+    <div class="text-center max-w-4xl mx-auto">
+        <!-- Profile photo placeholder with liquid glass effect -->
+        <div class="mb-8 inline-block">
+            <div class="liquid-glass-avatar w-40 h-40 mx-auto rounded-full flex items-center justify-center text-5xl font-display font-bold bg-gradient-to-br from-cyan-500/20 to-purple-500/20">
+                LV
+            </div>
+        </div>
+
+        <!-- Name -->
+        <h1 class="font-display text-5xl md:text-7xl font-bold mb-4 animate-fade-in">
+            <span class="bg-gradient-to-r from-white via-cyan-200 to-purple-200 bg-clip-text text-transparent">
+                Lucas Vano
+            </span>
+        </h1>
+
+        <!-- Headline -->
+        <p class="text-xl md:text-2xl text-white/80 mb-6 animate-fade-in-delay font-light">
+            {{ cv.profile.headline }}
+        </p>
+
+        <!-- Dynamic stats -->
+        <div class="flex flex-wrap justify-center gap-4 mb-12 animate-fade-in-delay-2">
+            <div class="glass-pill">
+                <span id="age" data-birth="{{ cv.profile.birth_date }}">--</span> years old
+            </div>
+            <div class="glass-pill">
+                <span id="experience" data-start="{{ cv.profile.career_start }}">--</span> years of experience
+            </div>
+        </div>
+
+        <!-- CTA buttons -->
+        <div class="flex flex-wrap justify-center gap-4 animate-fade-in-delay-3">
+            <a href="#experience" class="liquid-button-primary">
+                <span>View Experience</span>
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                </svg>
+            </a>
+            <a href="#contact" class="liquid-button-secondary">
+                <span>Get in Touch</span>
+            </a>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <div class="w-6 h-10 rounded-full border-2 border-white/30 flex items-start justify-center p-2">
+                <div class="w-1 h-2 bg-white/60 rounded-full animate-scroll-down"></div>
+            </div>
+        </div>
+    </div>
+</section>

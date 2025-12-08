@@ -1,15 +1,41 @@
+"""CV Compiler - Convert Markdown CV to a beautiful static website."""
+
 import logging
+from pathlib import Path
 
+from .generator import generate_html, write_output
+from .parser import parse_cv
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 
-def _run() -> None:
-    logger.info("Starting cvcompiler...")
-    # TODO: implement.
+def compile_cv(source: Path, output_dir: Path) -> Path:
+    """Compile a CV markdown file to HTML."""
+    logger.info(f"📄 Reading {source.name}...")
+    content = source.read_text(encoding="utf-8")
+
+    logger.info("🔍 Parsing CV structure...")
+    cv = parse_cv(content)
+
+    logger.info("🎨 Generating HTML...")
+    html = generate_html(cv)
+
+    output_file = output_dir / "index.html"
+    write_output(html, output_file)
+    logger.info(f"✨ Generated {output_file}")
+
+    return output_file
 
 
 def main() -> None:
-    """Entry point."""
-    _run()
+    """Entry point - compile cv.md from project root."""
+    project_root = Path(__file__).parent.parent.parent
+    cv_path = project_root / "cv.md"
+
+    if not cv_path.exists():
+        logger.error(f"❌ CV file not found: {cv_path}")
+        raise SystemExit(1)
+
+    compile_cv(cv_path, project_root)
+    logger.info("🚀 Done! Open index.html to view your CV.")
