@@ -1,0 +1,22 @@
+[project]
+name = "cvcompiler"
+version = "0.1.0"
+description = "Compile your Markdown CV to a beautiful single-page website."
+readme = "README.md"
+authors = [
+    { name = "vanolucas", email = "10572472+vanolucas@users.noreply.github.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+]
+
+[project.scripts]
+cvcompiler = "cvcompiler:main"
+
+[build-system]
+requires = ["uv_build>=0.8.4,<0.9.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+]
