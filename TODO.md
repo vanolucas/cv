@@ -1,17 +1,17 @@
-- [ ] Feat: change color theme use the following palette
-    - #eff5f5 Platinum (near white)
-    - #d6e4e5 Azure Mist (light grey)
-    - #f8f32b Bright Lemon (yellow highlight)
-    - #497174 Pine Blue (medium blue-grey)
-    - #0075a2 Cerulean (blue highlight)
-    - #eb6440 Burnt Peach (red-orange highlight)
+- [x] Feat: themes
+- [x] Fix: wrong colors in themes
+- [x] Feat: copyright year autoupdate
+- [x] Feat: remove "Crafted with passion"
+- [x] Fix: years calculation
 - [ ] Feat: blur under elements for readability
 - [ ] Fix: `*` in date ranges
 - [ ] Feat: highlight currently selected section in top bar
 - [ ] Fix: small horizontal scroll when page not yet fully scrolled on mobile
 - [ ] Feat: full name in profile + footer
-- [x] Feat: copyright year autoupdate
-- [x] Feat: remove "Crafted with passion"
 - [ ] Fix: add newline between sections
 - [ ] Feat: images
 - [ ] Feat: profile pic instead of LV
+- [ ] Fix: indent of `<style>:root {` in generated `index.html`
+- [ ] Feat: companie logos
+- [ ] Feat: school logos
+- [ ] Feat: Oracle certif widget

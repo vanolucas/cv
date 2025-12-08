@@ -9,8 +9,8 @@
                 <div class="flex flex-col md:flex-row md:items-start gap-6">
                     <!-- Timeline indicator -->
                     <div class="hidden md:flex flex-col items-center">
-                        <div class="w-4 h-4 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500"></div>
-                        <div class="w-0.5 h-full bg-gradient-to-b from-purple-500/50 to-transparent min-h-[100px]"></div>
+                        <div class="w-4 h-4 rounded-full timeline-dot"></div>
+                        <div class="w-0.5 h-full timeline-line min-h-[100px]"></div>
                     </div>
 
                     <div class="glass-card p-6 flex-1">
@@ -41,7 +41,7 @@
                         {% endif %}
 
                         {% if edu.distinction %}
-                        <p class="text-sm text-emerald-400/90 flex items-center gap-2">
+                        <p class="text-sm distinction-text flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
                             </svg>

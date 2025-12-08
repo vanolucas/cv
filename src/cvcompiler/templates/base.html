@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lucas Vano - CV</title>
+    <title>{{ cv.profile.name }} - CV</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        {{ theme.to_css_variables() | safe }}
         {% include 'styles.css' %}
     </style>
     <script>
@@ -31,7 +32,7 @@
         }
     </script>
 </head>
-<body class="bg-slate-950 text-white font-sans antialiased">
+<body style="background-color: var(--bg-primary); color: var(--text-primary);" class="font-sans antialiased">
     <!-- Animated background -->
     <div class="fixed inset-0 -z-10 overflow-hidden">
         <div class="blob blob-1"></div>
@@ -55,9 +56,9 @@
     </main>
 
     <!-- Footer -->
-    <footer class="py-8 text-center text-white/40 text-sm">
+    <footer class="py-8 text-center text-sm" style="color: var(--text-muted);">
         <div class="glass-card inline-block px-6 py-3">
-            <p>© <span id="year"></span> Lucas Vanoverberghe.</p>
+            <p>© <span id="year"></span> {{ cv.profile.name }}.</p>
         </div>
     </footer>
 

@@ -1,8 +1,13 @@
 ## Profile
 
+![](img/profile.jpg)
+
+**Lucas Vanoverberghe**
+
 **AI Software Engineer • Data & BI • Creative Developer**
 
-**{(now - 1992-06-25)}** years old, **{(now - 2016-01-01) rounded to 1 year}** years of professional experience
+birth_date = 1992-06-25
+career_start = 2016-01-01
 
 ## Experience
 

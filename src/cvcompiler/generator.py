@@ -5,6 +5,7 @@ from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 
 from .models import CV
+from .themes import Theme
 
 TEMPLATES_DIR = Path(__file__).parent / "templates"
 
@@ -19,11 +20,11 @@ def create_template_env() -> Environment:
     )
 
 
-def generate_html(cv: CV) -> str:
+def generate_html(cv: CV, theme: Theme) -> str:
     """Render CV data to HTML using templates."""
     env = create_template_env()
     template = env.get_template("base.html")
-    return template.render(cv=cv)
+    return template.render(cv=cv, theme=theme)
 
 
 def write_output(html: str, output_path: Path) -> None:

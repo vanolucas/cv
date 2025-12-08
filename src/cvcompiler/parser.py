@@ -16,6 +16,11 @@ from .models import (
 )
 
 
+def _compute_initials(name: str) -> str:
+    """Extract initials from full name."""
+    return "".join(word[0].upper() for word in name.split() if word)
+
+
 def parse_cv(content: str) -> CV:
     """Parse markdown CV content into structured data."""
     sections = _split_sections(content)
@@ -56,22 +61,25 @@ def _split_sections(content: str) -> dict[str, str]:
 def _parse_profile(content: str) -> Profile:
     """Extract profile info with date placeholders."""
     lines = [line.strip() for line in content.split("\n") if line.strip()]
-    headline = lines[0].replace("**", "").strip() if lines else ""
 
-    # Extract dates from template syntax: {(now - YYYY-MM-DD)}
+    name = ""
+    headline = ""
     birth_date = ""
     career_start = ""
-    for line in lines:
-        if "years old" in line:
-            match = re.search(r"\{?\(now - (\d{4}-\d{2}-\d{2})\)\}?", line)
-            if match:
-                birth_date = match.group(1)
-        if "years of professional experience" in line:
-            match = re.search(r"\{?\(now - (\d{4}-\d{2}-\d{2})\)\}?", line)
-            if match:
-                career_start = match.group(1)
 
-    return Profile(headline=headline, birth_date=birth_date, career_start=career_start)
+    for line in lines:
+        clean = line.replace("**", "").strip()
+        if line.startswith("**") and not headline and "•" not in line and "years" not in line:
+            name = clean
+        elif "•" in clean:
+            headline = clean
+        elif match := re.match(r"birth_date\s*=\s*(\d{4}-\d{2}-\d{2})", line):
+            birth_date = match.group(1)
+        elif match := re.match(r"career_start\s*=\s*(\d{4}-\d{2}-\d{2})", line):
+            career_start = match.group(1)
+
+    initials = _compute_initials(name)
+    return Profile(name=name, initials=initials, headline=headline, birth_date=birth_date, career_start=career_start)
 
 
 def _parse_experiences(content: str) -> list[Experience]:
