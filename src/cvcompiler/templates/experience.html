@@ -33,7 +33,7 @@
                         <ul class="space-y-1">
                             {% for item in exp.description %}
                             <li class="flex items-start gap-2">
-                                <span class="text-cyan-400 mt-1">•</span>
+                                <span class="text-cyan-400 flex-shrink-0">•</span>
                                 <span>{{ item }}</span>
                             </li>
                             {% endfor %}
@@ -70,7 +70,7 @@
                             <ul class="text-sm text-white/70 mb-3 space-y-1">
                                 {% for item in project.description %}
                                 <li class="flex items-start gap-2">
-                                    <span class="text-cyan-400 mt-1">•</span>
+                                    <span class="text-cyan-400 flex-shrink-0">•</span>
                                     <span>{{ item }}</span>
                                 </li>
                                 {% endfor %}
@@ -83,7 +83,7 @@
                                 <ul class="mt-1 text-sm text-white/70 space-y-1">
                                     {% for item in project.role %}
                                     <li class="flex items-start gap-2">
-                                        <span class="text-purple-400 mt-1">→</span>
+                                        <span class="text-purple-400 flex-shrink-0">→</span>
                                         <span>{{ item }}</span>
                                     </li>
                                     {% endfor %}

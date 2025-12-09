@@ -48,13 +48,22 @@ const mobileMenu = document.getElementById('mobile-menu');
 
 if (mobileMenuBtn && mobileMenu) {
     mobileMenuBtn.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
+        const isHidden = mobileMenu.classList.toggle('hidden');
+        // Add enhanced blur class to nav when menu is open
+        const nav = document.querySelector('nav');
+        if (nav) {
+            nav.classList.toggle('menu-open', !isHidden);
+        }
     });
 
     // Close menu on link click
     mobileMenu.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', () => {
             mobileMenu.classList.add('hidden');
+            const nav = document.querySelector('nav');
+            if (nav) {
+                nav.classList.remove('menu-open');
+            }
         });
     });
 }
@@ -154,10 +163,66 @@ window.addEventListener('scroll', () => {
     const currentScroll = window.pageYOffset;
 
     if (currentScroll > 100) {
-        nav.style.opacity = '0.98';
+        nav.classList.add('scrolled');
     } else {
-        nav.style.opacity = '1';
+        nav.classList.remove('scrolled');
     }
 
     lastScroll = currentScroll;
 });
+
+// ==========================================================================
+// Active section highlighting in navigation
+// ==========================================================================
+
+function updateActiveNavLink() {
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link, .nav-link-mobile');
+    
+    const scrollPosition = window.scrollY + window.innerHeight / 3;
+    
+    let activeSection = null;
+    
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        const sectionId = section.getAttribute('id');
+        
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+            activeSection = sectionId;
+        }
+    });
+    
+    // Special case: if at the very top, activate profile
+    if (window.scrollY < 100) {
+        activeSection = 'profile';
+    }
+    
+    navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+            const targetId = href.substring(1);
+            
+            if (targetId === activeSection) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        }
+    });
+}
+
+// Throttle scroll event for better performance
+let scrollTimeout;
+window.addEventListener('scroll', () => {
+    if (scrollTimeout) {
+        window.cancelAnimationFrame(scrollTimeout);
+    }
+    
+    scrollTimeout = window.requestAnimationFrame(() => {
+        updateActiveNavLink();
+    });
+});
+
+// Initial check on page load
+document.addEventListener('DOMContentLoaded', updateActiveNavLink);

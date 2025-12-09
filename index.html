@@ -110,8 +110,8 @@
         var(--glass-bg) 0%,
         color-mix(in srgb, var(--glass-bg) 50%, transparent) 100%
     );
-    backdrop-filter: blur(var(--blur-amount));
-    -webkit-backdrop-filter: blur(var(--blur-amount));
+    backdrop-filter: blur(20px) saturate(1.5);
+    -webkit-backdrop-filter: blur(20px) saturate(1.5);
     border: 1px solid var(--glass-border);
     border-radius: 24px;
     box-shadow:
@@ -148,8 +148,8 @@
         var(--glass-highlight) 0%,
         color-mix(in srgb, var(--glass-bg) 60%, transparent) 100%
     );
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(32px) saturate(1.5);
+    -webkit-backdrop-filter: blur(32px) saturate(1.5);
     border: 1px solid var(--glass-highlight);
     border-radius: 32px;
     box-shadow:
@@ -164,11 +164,12 @@
         color-mix(in srgb, var(--glass-bg) 80%, transparent) 0%,
         color-mix(in srgb, var(--glass-bg) 40%, transparent) 100%
     );
-    backdrop-filter: blur(var(--blur-amount));
-    -webkit-backdrop-filter: blur(var(--blur-amount));
+    backdrop-filter: blur(24px) saturate(1.8);
+    -webkit-backdrop-filter: blur(24px) saturate(1.8);
     border: 1px solid var(--glass-border);
     border-radius: 16px;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+    transition: backdrop-filter 0.3s ease;
 }
 
 /* ==========================================================================
@@ -184,7 +185,8 @@
         color-mix(in srgb, var(--accent-primary) 30%, transparent) 0%,
         color-mix(in srgb, var(--accent-secondary) 30%, transparent) 100%
     );
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(16px) saturate(1.5);
+    -webkit-backdrop-filter: blur(16px) saturate(1.5);
     border: 1px solid var(--glass-border);
     border-radius: 16px;
     color: var(--text-primary);
@@ -228,7 +230,8 @@
     align-items: center;
     padding: 14px 28px;
     background: color-mix(in srgb, var(--glass-bg) 50%, transparent);
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(16px) saturate(1.5);
+    -webkit-backdrop-filter: blur(16px) saturate(1.5);
     border: 1px solid var(--glass-highlight);
     border-radius: 16px;
     color: var(--text-primary);
@@ -245,7 +248,8 @@
 
 .glass-button {
     background: var(--glass-bg);
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(16px) saturate(1.5);
+    -webkit-backdrop-filter: blur(16px) saturate(1.5);
     border: 1px solid var(--glass-border);
     border-radius: 12px;
     transition: all 0.2s ease;
@@ -268,7 +272,8 @@
         var(--glass-bg) 0%,
         color-mix(in srgb, var(--glass-bg) 50%, transparent) 100%
     );
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(16px) saturate(1.5);
+    -webkit-backdrop-filter: blur(16px) saturate(1.5);
     border: 1px solid var(--glass-border);
     border-radius: 100px;
     color: var(--text-primary);
@@ -281,7 +286,8 @@
     align-items: center;
     padding: 6px 14px;
     background: color-mix(in srgb, var(--glass-bg) 80%, transparent);
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(12px) saturate(1.5);
+    -webkit-backdrop-filter: blur(12px) saturate(1.5);
     border: 1px solid color-mix(in srgb, var(--glass-border) 80%, transparent);
     border-radius: 100px;
     color: var(--text-muted);
@@ -306,11 +312,16 @@
 .tech-tag-sm {
     display: inline-flex;
     padding: 4px 8px;
-    background: color-mix(in srgb, var(--glass-bg) 50%, transparent);
-    border: 1px solid var(--glass-border);
+    background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--accent-primary) 15%, transparent) 0%,
+        color-mix(in srgb, var(--accent-secondary) 15%, transparent) 100%
+    );
+    border: 1px solid color-mix(in srgb, var(--accent-primary) 20%, transparent);
     border-radius: 6px;
-    color: var(--text-muted);
+    color: var(--accent-primary);
     font-size: 0.7rem;
+    font-weight: 500;
 }
 
 .skill-tag {
@@ -350,12 +361,43 @@
     font-size: 0.9rem;
     font-weight: 500;
     border-radius: 10px;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--accent-primary) 20%, transparent) 0%,
+        color-mix(in srgb, var(--accent-secondary) 15%, transparent) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .nav-link:hover {
     color: var(--text-primary);
     background: var(--glass-bg);
+}
+
+.nav-link.active {
+    color: var(--text-primary);
+    background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--accent-primary) 15%, transparent) 0%,
+        color-mix(in srgb, var(--accent-secondary) 10%, transparent) 100%
+    );
+    box-shadow: 
+        0 0 20px color-mix(in srgb, var(--accent-primary) 25%, transparent),
+        inset 0 1px 0 var(--glass-highlight);
+}
+
+.nav-link.active::before {
+    opacity: 1;
 }
 
 .nav-link-mobile {
@@ -364,12 +406,38 @@
     color: var(--text-secondary);
     font-size: 1rem;
     border-radius: 10px;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
 }
 
 .nav-link-mobile:hover {
     color: var(--text-primary);
     background: var(--glass-bg);
+}
+
+.nav-link-mobile.active {
+    color: var(--text-primary);
+    background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--accent-primary) 15%, transparent) 0%,
+        color-mix(in srgb, var(--accent-secondary) 10%, transparent) 100%
+    );
+    box-shadow: 
+        0 0 20px color-mix(in srgb, var(--accent-primary) 25%, transparent),
+        inset 0 1px 0 var(--glass-highlight);
+}
+
+/* Enhanced blur states for navigation */
+nav.scrolled .glass-nav {
+    backdrop-filter: blur(32px) saturate(1.8);
+    -webkit-backdrop-filter: blur(32px) saturate(1.8);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+nav.menu-open .glass-nav,
+nav.menu-open #mobile-menu .glass-card {
+    backdrop-filter: blur(28px) saturate(1.8);
+    -webkit-backdrop-filter: blur(28px) saturate(1.8);
 }
 
 /* ==========================================================================
@@ -398,7 +466,8 @@
         color-mix(in srgb, var(--glass-bg) 80%, transparent) 0%,
         color-mix(in srgb, var(--glass-bg) 30%, transparent) 100%
     );
-    backdrop-filter: blur(16px);
+    backdrop-filter: blur(20px) saturate(1.5);
+    -webkit-backdrop-filter: blur(20px) saturate(1.5);
     border: 1px solid color-mix(in srgb, var(--glass-border) 80%, transparent);
     border-radius: 20px;
     overflow: hidden;
@@ -843,10 +912,10 @@
         <!-- Dynamic stats -->
         <div class="flex flex-wrap justify-center gap-4 mb-12 animate-fade-in-delay-2">
             <div class="glass-pill">
-                <span id="age" data-birth="1992-06-25">--</span> years old
+                <span id="age" data-birth="1992-06-25">--</span>&nbsp;years old
             </div>
             <div class="glass-pill">
-                <span id="experience" data-start="2016-01-01">--</span> years of experience
+                <span id="experience" data-start="2016-01-01">--</span>&nbsp;years of experience
             </div>
         </div>
 
@@ -912,16 +981,42 @@
 
                             <ul class="text-sm text-white/70 mb-3 space-y-1">
                                 <li class="flex items-start gap-2">
-                                    <span class="text-cyan-400 mt-1">•</span>
+                                    <span class="text-cyan-400 flex-shrink-0">•</span>
                                     <span>Multi-agent Customer Care chatbot</span>
                                 </li>
                                 <li class="flex items-start gap-2">
-                                    <span class="text-cyan-400 mt-1">•</span>
+                                    <span class="text-cyan-400 flex-shrink-0">•</span>
                                     <span>Conversational appointment booking process</span>
                                 </li>
                             </ul>
 
+                            <div class="mb-3">
+                                <span class="text-xs uppercase tracking-wider text-purple-400 font-medium">Role</span>
+                                <ul class="mt-1 text-sm text-white/70 space-y-1">
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-purple-400 flex-shrink-0">→</span>
+                                        <span>Designed software architecture</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-purple-400 flex-shrink-0">→</span>
+                                        <span>Defined and implemented multi-agents, tools, connectors and integrations</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-purple-400 flex-shrink-0">→</span>
+                                        <span>Coaching and onboarding of developers</span>
+                                    </li>
+                                </ul>
+                            </div>
 
+                            <div class="flex flex-wrap gap-1.5 mt-4 pt-4 border-t border-white/10">
+                                <span class="tech-tag-sm">Python + FastAPI</span>
+                                <span class="tech-tag-sm">uv</span>
+                                <span class="tech-tag-sm">Docker + Azure Container App</span>
+                                <span class="tech-tag-sm">PostgreSQL</span>
+                                <span class="tech-tag-sm">Azure OpenAI + OpenAI Agents SDK</span>
+                                <span class="tech-tag-sm">Azure DevOps + Terraform</span>
+                                <span class="tech-tag-sm">OpenTelemetry + Azure Logs + Phoenix + Grafana</span>
+                            </div>
                         </div>
                     </div>
                     <div class="project-card group">
@@ -936,28 +1031,49 @@
 
                             <ul class="text-sm text-white/70 mb-3 space-y-1">
                                 <li class="flex items-start gap-2">
-                                    <span class="text-cyan-400 mt-1">•</span>
+                                    <span class="text-cyan-400 flex-shrink-0">•</span>
                                     <span>Accelerate Customer Care tickets processing</span>
                                 </li>
                                 <li class="flex items-start gap-2">
-                                    <span class="text-cyan-400 mt-1">•</span>
+                                    <span class="text-cyan-400 flex-shrink-0">•</span>
+                                    <span>GenAI to automate:</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-cyan-400 flex-shrink-0">•</span>
                                     <span>Summarizing cases</span>
                                 </li>
                                 <li class="flex items-start gap-2">
-                                    <span class="text-cyan-400 mt-1">•</span>
+                                    <span class="text-cyan-400 flex-shrink-0">•</span>
                                     <span>Prioritizing cases</span>
                                 </li>
                                 <li class="flex items-start gap-2">
-                                    <span class="text-cyan-400 mt-1">•</span>
+                                    <span class="text-cyan-400 flex-shrink-0">•</span>
                                     <span>Assigning cases to the right team</span>
                                 </li>
                                 <li class="flex items-start gap-2">
-                                    <span class="text-cyan-400 mt-1">•</span>
+                                    <span class="text-cyan-400 flex-shrink-0">•</span>
                                     <span>Generating email answers using a knowledge base (RAG)</span>
                                 </li>
                             </ul>
 
+                            <div class="mb-3">
+                                <span class="text-xs uppercase tracking-wider text-purple-400 font-medium">Role</span>
+                                <ul class="mt-1 text-sm text-white/70 space-y-1">
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-purple-400 flex-shrink-0">→</span>
+                                        <span>Designed and implemented software architecture</span>
+                                    </li>
+                                </ul>
+                            </div>
 
+                            <div class="flex flex-wrap gap-1.5 mt-4 pt-4 border-t border-white/10">
+                                <span class="tech-tag-sm">Python + FastAPI</span>
+                                <span class="tech-tag-sm">Docker + Azure Function App</span>
+                                <span class="tech-tag-sm">FAISS vector database</span>
+                                <span class="tech-tag-sm">Azure OpenAI, GPT, embedding model</span>
+                                <span class="tech-tag-sm">Odoo integration</span>
+                                <span class="tech-tag-sm">Structured logging</span>
+                            </div>
                         </div>
                     </div>
                     <div class="project-card group">
@@ -972,12 +1088,34 @@
 
                             <ul class="text-sm text-white/70 mb-3 space-y-1">
                                 <li class="flex items-start gap-2">
-                                    <span class="text-cyan-400 mt-1">•</span>
+                                    <span class="text-cyan-400 flex-shrink-0">•</span>
                                     <span>Kiosk Web app to let users configure their new car using an interactive conversational AI UX at Brussels Motor Show 2025</span>
                                 </li>
                             </ul>
 
+                            <div class="mb-3">
+                                <span class="text-xs uppercase tracking-wider text-purple-400 font-medium">Role</span>
+                                <ul class="mt-1 text-sm text-white/70 space-y-1">
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-purple-400 flex-shrink-0">→</span>
+                                        <span>Designed and implemented back-end software architecture</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-purple-400 flex-shrink-0">→</span>
+                                        <span>Coaching and onboarding of developers</span>
+                                    </li>
+                                </ul>
+                            </div>
 
+                            <div class="flex flex-wrap gap-1.5 mt-4 pt-4 border-t border-white/10">
+                                <span class="tech-tag-sm">Python + FastAPI</span>
+                                <span class="tech-tag-sm">poetry</span>
+                                <span class="tech-tag-sm">Docker + Azure Container App</span>
+                                <span class="tech-tag-sm">Azure CosmosDB</span>
+                                <span class="tech-tag-sm">DuckDB</span>
+                                <span class="tech-tag-sm">Azure OpenAI</span>
+                                <span class="tech-tag-sm">Azure Logs</span>
+                            </div>
                         </div>
                     </div>
                     <div class="project-card group">
@@ -992,20 +1130,24 @@
 
                             <ul class="text-sm text-white/70 mb-3 space-y-1">
                                 <li class="flex items-start gap-2">
-                                    <span class="text-cyan-400 mt-1">•</span>
+                                    <span class="text-cyan-400 flex-shrink-0">•</span>
                                     <span>Intelligent PDF document parsing with OCR + GenAI</span>
                                 </li>
                                 <li class="flex items-start gap-2">
-                                    <span class="text-cyan-400 mt-1">•</span>
+                                    <span class="text-cyan-400 flex-shrink-0">•</span>
                                     <span>Smart interpretation and matching of car equipment using GenAI</span>
                                 </li>
                                 <li class="flex items-start gap-2">
-                                    <span class="text-cyan-400 mt-1">•</span>
+                                    <span class="text-cyan-400 flex-shrink-0">•</span>
                                     <span>Automatically create assets in existing systems using APIs</span>
                                 </li>
                             </ul>
 
 
+                            <div class="flex flex-wrap gap-1.5 mt-4 pt-4 border-t border-white/10">
+                                <span class="tech-tag-sm">Python + FastAPI</span>
+                                <span class="tech-tag-sm">Azure Document Intelligence</span>
+                            </div>
                         </div>
                     </div>
                     <div class="project-card group">
@@ -1020,12 +1162,19 @@
 
                             <ul class="text-sm text-white/70 mb-3 space-y-1">
                                 <li class="flex items-start gap-2">
-                                    <span class="text-cyan-400 mt-1">•</span>
+                                    <span class="text-cyan-400 flex-shrink-0">•</span>
                                     <span>Various chatbots and POCs</span>
                                 </li>
                             </ul>
 
 
+                            <div class="flex flex-wrap gap-1.5 mt-4 pt-4 border-t border-white/10">
+                                <span class="tech-tag-sm">Python + Streamlit</span>
+                                <span class="tech-tag-sm">Azure OpenAI, GPT, embedding model</span>
+                                <span class="tech-tag-sm">Pandas + DuckDB</span>
+                                <span class="tech-tag-sm">Microsoft AutoGen</span>
+                                <span class="tech-tag-sm">LangChain + LangGraph</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1091,11 +1240,11 @@
                     <div class="mt-4 text-white/70">
                         <ul class="space-y-1">
                             <li class="flex items-start gap-2">
-                                <span class="text-cyan-400 mt-1">•</span>
+                                <span class="text-cyan-400 flex-shrink-0">•</span>
                                 <span>BI and Data Engineering</span>
                             </li>
                             <li class="flex items-start gap-2">
-                                <span class="text-cyan-400 mt-1">•</span>
+                                <span class="text-cyan-400 flex-shrink-0">•</span>
                                 <span>Created trainings and seminars</span>
                             </li>
                         </ul>
@@ -1154,11 +1303,11 @@
                     <div class="mt-4 text-white/70">
                         <ul class="space-y-1">
                             <li class="flex items-start gap-2">
-                                <span class="text-cyan-400 mt-1">•</span>
+                                <span class="text-cyan-400 flex-shrink-0">•</span>
                                 <span>End-to-end development of an iOS application with Swift.</span>
                             </li>
                             <li class="flex items-start gap-2">
-                                <span class="text-cyan-400 mt-1">•</span>
+                                <span class="text-cyan-400 flex-shrink-0">•</span>
                                 <span>Stumber was a tailored social network app for university students and companies.</span>
                             </li>
                         </ul>
@@ -1190,11 +1339,11 @@
                     <div class="mt-4 text-white/70">
                         <ul class="space-y-1">
                             <li class="flex items-start gap-2">
-                                <span class="text-cyan-400 mt-1">•</span>
+                                <span class="text-cyan-400 flex-shrink-0">•</span>
                                 <span>Internship in Dutch market leader in mobile interaction during presentations.</span>
                             </li>
                             <li class="flex items-start gap-2">
-                                <span class="text-cyan-400 mt-1">•</span>
+                                <span class="text-cyan-400 flex-shrink-0">•</span>
                                 <span>Developed a real time web application to record audience interaction (votes, questions,…) and performed website maintenance.</span>
                             </li>
                         </ul>
@@ -1630,13 +1779,22 @@ const mobileMenu = document.getElementById('mobile-menu');
 
 if (mobileMenuBtn && mobileMenu) {
     mobileMenuBtn.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
+        const isHidden = mobileMenu.classList.toggle('hidden');
+        // Add enhanced blur class to nav when menu is open
+        const nav = document.querySelector('nav');
+        if (nav) {
+            nav.classList.toggle('menu-open', !isHidden);
+        }
     });
 
     // Close menu on link click
     mobileMenu.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', () => {
             mobileMenu.classList.add('hidden');
+            const nav = document.querySelector('nav');
+            if (nav) {
+                nav.classList.remove('menu-open');
+            }
         });
     });
 }
@@ -1736,12 +1894,68 @@ window.addEventListener('scroll', () => {
     const currentScroll = window.pageYOffset;
 
     if (currentScroll > 100) {
-        nav.style.opacity = '0.98';
+        nav.classList.add('scrolled');
     } else {
-        nav.style.opacity = '1';
+        nav.classList.remove('scrolled');
     }
 
     lastScroll = currentScroll;
-});    </script>
+});
+
+// ==========================================================================
+// Active section highlighting in navigation
+// ==========================================================================
+
+function updateActiveNavLink() {
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link, .nav-link-mobile');
+    
+    const scrollPosition = window.scrollY + window.innerHeight / 3;
+    
+    let activeSection = null;
+    
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        const sectionId = section.getAttribute('id');
+        
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+            activeSection = sectionId;
+        }
+    });
+    
+    // Special case: if at the very top, activate profile
+    if (window.scrollY < 100) {
+        activeSection = 'profile';
+    }
+    
+    navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+            const targetId = href.substring(1);
+            
+            if (targetId === activeSection) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        }
+    });
+}
+
+// Throttle scroll event for better performance
+let scrollTimeout;
+window.addEventListener('scroll', () => {
+    if (scrollTimeout) {
+        window.cancelAnimationFrame(scrollTimeout);
+    }
+    
+    scrollTimeout = window.requestAnimationFrame(() => {
+        updateActiveNavLink();
+    });
+});
+
+// Initial check on page load
+document.addEventListener('DOMContentLoaded', updateActiveNavLink);    </script>
 </body>
 </html>

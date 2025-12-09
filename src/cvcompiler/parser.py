@@ -235,20 +235,20 @@ def _parse_bullet_content(lines: list[str]) -> tuple[list[str], list[str], list[
     for line in lines:
         stripped = line.strip()
 
-        # Category headers
+        # Category headers (top-level, not indented)
         if stripped == "- Role":
             current = role
         elif stripped == "- Tech stack":
             current = tech_stack
-        # Top-level bullets (not sub-items, not category headers)
-        elif stripped.startswith("- ") and not stripped.endswith(":"):
-            if current is description:
-                description.append(stripped[2:])
-        # Sub-items (indented with tab or spaces)
+        # Sub-items (indented) - check BEFORE top-level bullets
         elif line.startswith("\t") or line.startswith("  "):
             item = stripped.lstrip("- ").strip()
             if item:
                 current.append(item)
+        # Top-level bullets (description only)
+        elif stripped.startswith("- "):
+            if current is description:
+                description.append(stripped[2:])
 
     return description, role, tech_stack
 

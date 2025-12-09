@@ -22,19 +22,19 @@ career_start = 2016-01-01
 ![](img/amelia_chatbot.jpg)
 
 - Multi-agent Customer Care chatbot
-	- Conversational appointment booking process
+    - Conversational appointment booking process
 - Role
-	- Designed software architecture
-	- Defined and implemented multi-agents, tools, connectors and integrations
-	- Coaching and onboarding of developers
+    - Designed software architecture
+    - Defined and implemented multi-agents, tools, connectors and integrations
+    - Coaching and onboarding of developers
 - Tech stack
-	- Python + FastAPI
-	- uv
-	- Docker + Azure Container App
-	- PostgreSQL
-	- Azure OpenAI + OpenAI Agents SDK
-	- Azure DevOps + Terraform
-	- OpenTelemetry + Azure Logs + Phoenix + Grafana
+    - Python + FastAPI
+    - uv
+    - Docker + Azure Container App
+    - PostgreSQL
+    - Azure OpenAI + OpenAI Agents SDK
+    - Azure DevOps + Terraform
+    - OpenTelemetry + Azure Logs + Phoenix + Grafana
 
 ##### Customer Care automation
 
@@ -42,19 +42,19 @@ career_start = 2016-01-01
 
 - Accelerate Customer Care tickets processing
 - GenAI to automate:
-	- Summarizing cases
-	- Prioritizing cases
-	- Assigning cases to the right team
-	- Generating email answers using a knowledge base (RAG)
+    - Summarizing cases
+    - Prioritizing cases
+    - Assigning cases to the right team
+    - Generating email answers using a knowledge base (RAG)
 - Role
-	- Designed and implemented software architecture
+    - Designed and implemented software architecture
 - Tech stack
-	- Python + FastAPI
-	- Docker + Azure Function App
-	- FAISS vector database
-	- Azure OpenAI, GPT, embedding model
-	- Odoo integration
-	- Structured logging
+    - Python + FastAPI
+    - Docker + Azure Function App
+    - FAISS vector database
+    - Azure OpenAI, GPT, embedding model
+    - Odoo integration
+    - Structured logging
 
 ##### Amelia Car Configuration chatbot - BMS 2025
 
@@ -62,27 +62,27 @@ career_start = 2016-01-01
 
 - Kiosk Web app to let users configure their new car using an interactive conversational AI UX at Brussels Motor Show 2025
 - Role
-	- Designed and implemented back-end software architecture
-	- Coaching and onboarding of developers
+    - Designed and implemented back-end software architecture
+    - Coaching and onboarding of developers
 - Tech stack
-	- Python + FastAPI
-	- poetry
-	- Docker + Azure Container App
-	- Azure CosmosDB
-	- DuckDB
-	- Azure OpenAI
-	- Azure Logs
+    - Python + FastAPI
+    - poetry
+    - Docker + Azure Container App
+    - Azure CosmosDB
+    - DuckDB
+    - Azure OpenAI
+    - Azure Logs
 
 ##### Automated Car Offer creation from PDF
 
 ![](img/offer_pdf_ai.jpg)
 
 - Intelligent PDF document parsing with OCR + GenAI
-	- Smart interpretation and matching of car equipment using GenAI
-	- Automatically create assets in existing systems using APIs
+    - Smart interpretation and matching of car equipment using GenAI
+    - Automatically create assets in existing systems using APIs
 - Tech stack
-	- Python + FastAPI
-	- Azure Document Intelligence
+    - Python + FastAPI
+    - Azure Document Intelligence
 
 ##### Interactive AI chatbots
 
@@ -90,11 +90,11 @@ career_start = 2016-01-01
 
 - Various chatbots and POCs
 - Tech stack
-	- Python + Streamlit
-	- Azure OpenAI, GPT, embedding model
-	- Pandas + DuckDB
-	- Microsoft AutoGen
-	- LangChain + LangGraph
+    - Python + Streamlit
+    - Azure OpenAI, GPT, embedding model
+    - Pandas + DuckDB
+    - Microsoft AutoGen
+    - LangChain + LangGraph
 
 ### Data Engineer & BI Developer @ [D'Ieteren](https://www.dieterengroup.com/dieteren-automotive/)
 

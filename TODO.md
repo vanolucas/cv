@@ -7,16 +7,19 @@
 - [x] Fix: missing AKABI content
 - [x] Fix: parsing `![](img/amelia_chatbot.jpg)`
 - [x] Fix: `*` in date ranges
-- [ ] Fix: missing tech stack tags in projects
-- [ ] Fix: space after years
-- [ ] Feat: blur under elements for readability (currently elements behind cards and bars look too sharp)
-- [ ] Feat: highlight currently selected section in top bar
-- [ ] Fix: small horizontal scroll when page not yet fully scrolled on mobile
-- [ ] Feat: full name in profile + footer
-- [ ] Fix: add newline between sections
+- [x] Feat: make the `tech-tag-sm` tags use the same color aspect as `tech-tag` elements.
+- [x] Fix: missing tech stack tags in projects
+- [x] Fix: space after years
+- [x] Fix: bulletpoints not aligned with text
+- [x] Feat: blur under elements for readability (currently elements behind cards and bars look too sharp)
+- [x] Feat: highlight currently selected section in top bar using liquid glass
+- [x] Feat: full name in profile + footer
+- [ ] Feat: profile pic instead of LV profile pic placeholder
 - [ ] Feat: images
-- [ ] Feat: profile pic instead of LV
+- [ ] Feat: light/dark theme sun/moon toggle button in top bar (last item in the bar)
 - [ ] Fix: indent of `<style>:root {` in generated `index.html`
-- [ ] Feat: companie logos
+- [ ] Feat: company logos
 - [ ] Feat: school logos
 - [ ] Feat: Oracle certif widget
+- [ ] Fix: small horizontal scroll when page not yet fully scrolled on mobile
+- [ ] Fix: add newline between sections?
