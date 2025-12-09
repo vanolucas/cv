@@ -171,10 +171,11 @@ Broad technical knowledge and experience.
 ![](img/programming_languages.jpg)
 
 - Python
+- SQL
 - Java
+- Bash, Linux
 - C# .NET
 - C++
-- SQL
 - Kusto (KQL)
 
 ### Generative AI
