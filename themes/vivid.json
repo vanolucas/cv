@@ -24,7 +24,7 @@
         "glass_border": "rgba(73, 113, 116, 0.2)",
         "glass_highlight": "rgba(255, 255, 255, 0.7)",
 
-        "overlay_dark": "rgba(214, 228, 229, 0.9)"
+        "overlay_dark": "rgba(214, 228, 229, 0.25)"
     },
     "effects": {
         "blur_amount": "16px",

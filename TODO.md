@@ -1,14 +1,12 @@
 ## Ongoing
 
-- [ ] Feat: when in light mode, adapt the `project-image-overlay` and `skill-image-overlay` because they make the images look too dimmed.
+- [ ] Docs: edit repo desc
 
 ## To-do
 
-- [ ] Docs: edit repo desc
 
 ## Done
 
-- [x] Feat: import image from BMS 2025
 - [x] Feat: images
 - [x] Feat: add Github as first item to "Also find me on"
 - [x] Feat: support Markdown links (open in new tab) + HTML snippet embed
@@ -34,7 +32,6 @@
 - [x] Fix: missing AKABI content
 - [x] Fix: missing some text in Experience cards
 - [x] Fix: years calculation
-- [x] Feat: remove "Crafted with passion"
 - [x] Feat: copyright year autoupdate
 - [x] Fix: wrong colors in themes
 - [x] Feat: themes
