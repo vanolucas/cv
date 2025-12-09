@@ -20,11 +20,11 @@ def create_template_env() -> Environment:
     )
 
 
-def generate_html(cv: CV, theme: Theme) -> str:
+def generate_html(cv: CV, light_theme: Theme, dark_theme: Theme) -> str:
     """Render CV data to HTML using templates."""
     env = create_template_env()
     template = env.get_template("base.html")
-    return template.render(cv=cv, theme=theme)
+    return template.render(cv=cv, light_theme=light_theme, dark_theme=dark_theme)
 
 
 def write_output(html: str, output_path: Path) -> None:

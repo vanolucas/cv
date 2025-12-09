@@ -68,6 +68,7 @@ class Profile:
     headline: str
     birth_date: str  # ISO format for client-side calculation
     career_start: str  # ISO format for client-side calculation
+    image: str = ""
 
 
 @dataclass

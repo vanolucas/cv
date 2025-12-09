@@ -6,11 +6,17 @@
     scroll-behavior: smooth;
 }
 
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+}
+
 /* Theme-aware text color overrides for Tailwind classes */
 .text-white { color: var(--text-primary) !important; }
 .text-white\/80, .text-white\/70, .text-white\/60 { color: var(--text-secondary) !important; }
 .text-white\/50, .text-white\/40 { color: var(--text-muted) !important; }
 .text-cyan-400, .hover\:text-cyan-400:hover { color: var(--accent-primary) !important; }
+.text-purple-secondary { color: var(--accent-secondary) !important; }
 .text-amber-400, .hover\:text-amber-400:hover { color: var(--accent-tertiary) !important; }
 .bg-white\/60 { background-color: var(--text-secondary) !important; }
 
@@ -759,6 +765,27 @@ nav.menu-open #mobile-menu .glass-card {
 .timeline-line {
     background: linear-gradient(to bottom, color-mix(in srgb, var(--accent-secondary) 50%, transparent), transparent);
 }
+
+/* ==========================================================================
+   Theme Toggle
+   ========================================================================== */
+
+#theme-toggle,
+#theme-toggle-mobile {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+#theme-toggle:hover,
+#theme-toggle-mobile:hover {
+    transform: scale(1.1);
+}
+
+/* Show sun in dark mode, moon in light mode */
+[data-theme="light"] .theme-icon-sun { display: none; }
+[data-theme="light"] .theme-icon-moon { display: block; }
+[data-theme="dark"] .theme-icon-sun { display: block; }
+[data-theme="dark"] .theme-icon-moon { display: none; }
 
 /* ==========================================================================
    Responsive

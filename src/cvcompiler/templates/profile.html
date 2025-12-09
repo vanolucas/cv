@@ -1,11 +1,17 @@
 <!-- Profile / Hero Section -->
 <section id="profile" class="min-h-screen flex items-center justify-center relative px-4 pt-20">
     <div class="text-center max-w-4xl mx-auto">
-        <!-- Profile photo placeholder with liquid glass effect -->
+        <!-- Profile photo with liquid glass effect -->
         <div class="mb-8 inline-block">
+            {% if cv.profile.image %}
+            <div class="liquid-glass-avatar w-40 h-40 mx-auto rounded-full overflow-hidden">
+                <img src="{{ cv.profile.image }}" alt="{{ cv.profile.name }}" class="w-full h-full object-cover">
+            </div>
+            {% else %}
             <div class="liquid-glass-avatar w-40 h-40 mx-auto rounded-full flex items-center justify-center text-5xl font-display font-bold gradient-bg-accent">
                 {{ cv.profile.initials }}
             </div>
+            {% endif %}
         </div>
 
         <!-- Name -->
@@ -51,3 +57,4 @@
         </div>
     </div>
 </section>
+

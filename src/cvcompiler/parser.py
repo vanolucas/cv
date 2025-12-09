@@ -87,11 +87,13 @@ def _parse_profile(content: str) -> Profile:
 
     name = ""
     headline = ""
+    image = ""
     dates: dict[str, str] = {}
 
     for line in lines:
-        # Skip images
-        if line.startswith("!["):
+        # Extract image
+        if match := IMAGE_PATTERN.match(line):
+            image = match.group(1)
             continue
         clean = line.replace("**", "").strip()
         if line.startswith("**") and not headline and "•" not in line:
@@ -107,6 +109,7 @@ def _parse_profile(content: str) -> Profile:
         headline=headline,
         birth_date=dates.get("birth_date", ""),
         career_start=dates.get("career_start", ""),
+        image=image,
     )
 
 

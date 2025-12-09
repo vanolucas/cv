@@ -14,12 +14,19 @@
 - [x] Feat: blur under elements for readability (currently elements behind cards and bars look too sharp)
 - [x] Feat: highlight currently selected section in top bar using liquid glass
 - [x] Feat: full name in profile + footer
-- [ ] Feat: profile pic instead of LV profile pic placeholder
-- [ ] Feat: images
-- [ ] Feat: light/dark theme sun/moon toggle button in top bar (last item in the bar)
-- [ ] Fix: indent of `<style>:root {` in generated `index.html`
+- [x] Feat: profile pic instead of LV profile pic placeholder
+- [x] Feat: light/dark theme sun/moon toggle button in top bar (last item in the bar)
+- [x] Fix: the Role elements use a color that is not from the theme (`text-purple-400`). Adapt it to use a color from the theme (like we do for other UI elements).
+- [x] Fix: newline between sections in HTML
+- [x] Fix: small horizontal scroll when page not yet fully scrolled on mobile. That width issue resolves as soon as we scroll all the way down to the bottom.
+
 - [ ] Feat: company logos
+
+- [ ] Feat: generate favicon with initials
+- [ ] Feat: images
 - [ ] Feat: school logos
 - [ ] Feat: Oracle certif widget
-- [ ] Fix: small horizontal scroll when page not yet fully scrolled on mobile
-- [ ] Fix: add newline between sections?
+
+## Won't do
+
+- [ ] Fix: indent of `<style>:root {` in generated `index.html`

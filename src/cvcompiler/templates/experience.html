@@ -79,11 +79,11 @@
 
                             {% if project.role %}
                             <div class="mb-3">
-                                <span class="text-xs uppercase tracking-wider text-purple-400 font-medium">Role</span>
+                                <span class="text-xs uppercase tracking-wider text-purple-secondary font-medium">Role</span>
                                 <ul class="mt-1 text-sm text-white/70 space-y-1">
                                     {% for item in project.role %}
                                     <li class="flex items-start gap-2">
-                                        <span class="text-purple-400 flex-shrink-0">→</span>
+                                        <span class="text-purple-secondary flex-shrink-0">→</span>
                                         <span>{{ item }}</span>
                                     </li>
                                     {% endfor %}
@@ -108,3 +108,4 @@
         </div>
     </div>
 </section>
+
