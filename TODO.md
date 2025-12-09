@@ -1,6 +1,5 @@
 ## Ongoing
 
-- [ ] Docs: edit repo desc
 
 ## To-do
 
