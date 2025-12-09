@@ -1,0 +1,30 @@
+<!-- Skills Section -->
+<section id="skills" class="py-24 px-4 relative">
+    <div class="max-w-6xl mx-auto">
+        <h2 class="section-title">Skills & Technologies</h2>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for category in cv.skills %}
+            <div class="skill-card group" data-aos="zoom-in" data-aos-delay="{{ loop.index * 100 }}">
+                {% if category.image %}
+                <div class="skill-image-container">
+                    <img src="{{ category.image }}" alt="{{ category.title }}" class="skill-image" loading="lazy">
+                    <div class="skill-image-overlay"></div>
+                </div>
+                {% endif %}
+                <div class="p-5">
+                    <h3 class="text-lg font-display font-semibold text-white mb-4 group-hover:text-cyan-400 transition-colors">
+                        {{ category.title }}
+                    </h3>
+                    <div class="flex flex-wrap gap-2">
+                        {% for skill in category.items %}
+                        <span class="skill-tag">{{ skill }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+

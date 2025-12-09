@@ -1,12 +1,28 @@
 # CVcompiler
 
-Compile your Markdown CV to a beautiful single-page website.
+Compile your Markdown resume/CV to a beautiful single-page website.
+
+Here is an example.
 
 ## Run
 
-```sh
-uv run --env-file .env cvcompiler
-```
+1. Edit your resume in [cv.md](cv.md) and put your image assets in [img/](img/).
+
+2. Run the website generator:
+
+    ```sh
+    uv run cvcompiler
+    ```
+
+3. Follow instructions to select your themes.
+
+4. `index.html` gets generated.
+
+5. Host your single-page CV website wherever you like (`index.html` + `img/` directory).
+
+## Edit colors
+
+You can create and use your own themes by placing them in [themes/](themes/).
 
 ## Contribute
 
