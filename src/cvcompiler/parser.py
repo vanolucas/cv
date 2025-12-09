@@ -30,10 +30,14 @@ IMAGE_PATTERN = re.compile(r"!\[.*?\]\((.+?)\)")
 DATE_PATTERN = re.compile(r"(\w+)\s*=\s*(\d{4}-\d{2}-\d{2})")
 LANGUAGE_PATTERN = re.compile(r"- (.+?): (.+?) \((\d+)%\)")
 LINK_PATTERN = re.compile(r"\[(.+?)\]\((.+?)\)")
+GOOGLE_ANALYTICS_PATTERN = re.compile(r"^google_analytics_id\s*=\s*(.+)$", re.MULTILINE)
 
 
 def parse_cv(content: str) -> CV:
     """Parse markdown CV content into structured data."""
+    # Extract metadata from preamble (before first section)
+    google_analytics_id = _extract_google_analytics_id(content)
+
     raw_sections = _split_sections(content)
 
     # Sections that handle HTML embeds at item level (not section level)
@@ -62,7 +66,14 @@ def parse_cv(content: str) -> CV:
         contact=_parse_links(sections.get("Contact", "")),
         socials=_parse_links(sections.get("Socials", "")),
         html_embeds=html_embeds,
+        google_analytics_id=google_analytics_id,
     )
+
+
+def _extract_google_analytics_id(content: str) -> str:
+    """Extract Google Analytics ID from markdown preamble."""
+    match = GOOGLE_ANALYTICS_PATTERN.search(content)
+    return match.group(1).strip() if match else ""
 
 
 # -- Section splitting --
