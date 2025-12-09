@@ -1,14 +1,18 @@
 ## Ongoing
 
-- [ ] Feat: Oracle certif widget
+- [ ] Feat: when in light mode, adapt the `project-image-overlay` and `skill-image-overlay` because they make the images look too dimmed.
 
 ## To-do
 
-- [ ] Feat: images
-- [ ] Fix: console warning `(index):64 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI`
+- [ ] Docs: edit repo desc
 
 ## Done
 
+- [x] Feat: import image from BMS 2025
+- [x] Feat: images
+- [x] Feat: add Github as first item to "Also find me on"
+- [x] Feat: support Markdown links (open in new tab) + HTML snippet embed
+- [x] Feat: Oracle certif widget
 - [x] Fix: two elements have the same `id="experience"`
 - [x] Feat: school logos
 - [x] Feat: company logos
@@ -37,4 +41,5 @@
 
 ## Won't do
 
+- [ ] Fix: console warning `(index):64 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI`
 - [ ] Fix: indent of `<style>:root {` in generated `index.html`

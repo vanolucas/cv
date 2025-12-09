@@ -55,15 +55,28 @@
     <!-- Navigation -->
     {% include 'nav.html' %}
 
+    {# Macro to render HTML embeds for a section #}
+    {% macro render_embeds(section_key) %}
+        {% for html_block in cv.html_embeds.get(section_key, []) %}
+        {{ html_block|safe }}
+        {% endfor %}
+    {% endmacro %}
+
     <!-- Main content -->
     <main>
         {% include 'profile.html' %}
+        {{ render_embeds('profile') }}
         {% include 'experience.html' %}
+        {{ render_embeds('experience') }}
         {% include 'skills.html' %}
+        {{ render_embeds('skills_and_technologies') }}
         {% include 'certifications.html' %}
         {% include 'education.html' %}
+        {{ render_embeds('education') }}
         {% include 'languages.html' %}
+        {{ render_embeds('languages') }}
         {% include 'contact.html' %}
+        {{ render_embeds('contact') }}
     </main>
 
     <!-- Footer -->

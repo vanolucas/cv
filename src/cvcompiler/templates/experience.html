@@ -35,13 +35,13 @@
                     {% if exp.description %}
                     <div class="mt-4 text-white/70">
                         {% if exp.description|length == 1 %}
-                        <p>{{ exp.description[0] }}</p>
+                        <p>{{ exp.description[0]|md }}</p>
                         {% else %}
                         <ul class="space-y-1">
                             {% for item in exp.description %}
                             <li class="flex items-start gap-2">
                                 <span class="text-cyan-400 flex-shrink-0">•</span>
-                                <span>{{ item }}</span>
+                                <span>{{ item|md }}</span>
                             </li>
                             {% endfor %}
                         </ul>
@@ -78,7 +78,7 @@
                                 {% for item in project.description %}
                                 <li class="flex items-start gap-2">
                                     <span class="text-cyan-400 flex-shrink-0">•</span>
-                                    <span>{{ item }}</span>
+                                    <span>{{ item|md }}</span>
                                 </li>
                                 {% endfor %}
                             </ul>
@@ -91,7 +91,7 @@
                                     {% for item in project.role %}
                                     <li class="flex items-start gap-2">
                                         <span class="text-purple-secondary flex-shrink-0">→</span>
-                                        <span>{{ item }}</span>
+                                        <span>{{ item|md }}</span>
                                     </li>
                                     {% endfor %}
                                 </ul>

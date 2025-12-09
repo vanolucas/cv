@@ -3,6 +3,7 @@
 import re
 from collections.abc import Iterator
 
+from .markdown import extract_html_blocks, process_text
 from .models import (
     CV,
     Certification,
@@ -33,7 +34,23 @@ LINK_PATTERN = re.compile(r"\[(.+?)\]\((.+?)\)")
 
 def parse_cv(content: str) -> CV:
     """Parse markdown CV content into structured data."""
-    sections = _split_sections(content)
+    raw_sections = _split_sections(content)
+
+    # Sections that handle HTML embeds at item level (not section level)
+    item_level_embed_sections = {"Certification"}
+
+    # Extract HTML blocks from sections that don't handle them at item level
+    sections: dict[str, str] = {}
+    html_embeds: dict[str, list[str]] = {}
+    for name, section_content in raw_sections.items():
+        if name in item_level_embed_sections:
+            # Pass raw content - parser handles HTML extraction per item
+            sections[name] = section_content
+        else:
+            cleaned, blocks = extract_html_blocks(section_content)
+            sections[name] = cleaned
+            if blocks:
+                html_embeds[name.lower().replace(" ", "_")] = blocks
 
     return CV(
         profile=_parse_profile(sections.get("Profile", "")),
@@ -44,6 +61,7 @@ def parse_cv(content: str) -> CV:
         languages=_parse_languages(sections.get("Languages", "")),
         contact=_parse_links(sections.get("Contact", "")),
         socials=_parse_links(sections.get("Socials", "")),
+        html_embeds=html_embeds,
     )
 
 
@@ -390,12 +408,16 @@ def _parse_certifications(content: str) -> list[Certification]:
     certs: list[Certification] = []
 
     for block in _split_blocks(content, "###"):
-        lines = block.split("\n")
+        # Extract HTML blocks embedded in this certification
+        cleaned_block, html_blocks = extract_html_blocks(block)
+        html_embed = "\n".join(html_blocks)
+
+        lines = cleaned_block.split("\n")
         title = lines[0][4:].strip()
         description = " ".join(
             ln.strip() for ln in lines[1:] if ln.strip() and not ln.startswith("#")
         )
-        certs.append(Certification(title=title, description=description))
+        certs.append(Certification(title=title, description=description, html_embed=html_embed))
 
     return certs
 

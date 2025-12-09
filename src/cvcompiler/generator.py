@@ -5,6 +5,7 @@ from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 
 from .favicon import favicon_to_data_uri, generate_favicon_svg
+from .markdown import process_text
 from .models import CV
 from .themes import Theme
 
@@ -13,12 +14,14 @@ TEMPLATES_DIR = Path(__file__).parent / "templates"
 
 def create_template_env() -> Environment:
     """Create Jinja2 environment with custom configuration."""
-    return Environment(
+    env = Environment(
         loader=FileSystemLoader(TEMPLATES_DIR),
         autoescape=True,
         trim_blocks=True,
         lstrip_blocks=True,
     )
+    env.filters["md"] = process_text
+    return env
 
 
 def generate_html(cv: CV, light_theme: Theme, dark_theme: Theme) -> str:

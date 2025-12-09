@@ -226,7 +226,23 @@ Broad technical knowledge and experience.
 
 ### Oracle Database SQL Certified Expert
 
-Passed with 94% score.
+```html
+<div>
+    <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="f250e7a1-1ef6-44e8-85a1-4836d99485f6"></div>
+    <script type="text/javascript">
+        (function() {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.async = true;
+            s.src = '//cdn.youracclaim.com/assets/utilities/embed.js';
+            var o = document.getElementsByTagName('script')[0];
+            o.parentNode.insertBefore(s, o);
+        })();
+    </script>
+</div>
+```
+
+[Passed with 94% score](https://www.youracclaim.com/badges/f250e7a1-1ef6-44e8-85a1-4836d99485f6/public_url).
 
 ## Education
 
@@ -286,5 +302,6 @@ Obtained the Engineering Science Baccalauréat (i.e. French National Examination
 
 ## Socials
 
+- [GitHub](https://github.com/vanolucas)
 - [Facebook](https://www.facebook.com/vanolucas)
 - [X](https://x.com/vanolucas)

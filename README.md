@@ -1,6 +1,8 @@
 # CVcompiler
 
-Compile your Markdown CV to a beautiful single-page website.
+Compile your Markdown resume/CV to a beautiful single-page website.
+
+Here is an example.
 
 ## Run
 
@@ -17,6 +19,10 @@ Compile your Markdown CV to a beautiful single-page website.
 4. `index.html` gets generated.
 
 5. Host your single-page CV website wherever you like (`index.html` + `img/` directory).
+
+## Edit colors
+
+You can create and use your own themes by placing them in [themes/](themes/).
 
 ## Contribute
 
