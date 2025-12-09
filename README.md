@@ -2,7 +2,7 @@
 
 Compile your Markdown resume/CV to a beautiful single-page website.
 
-Here is an example.
+[Here is an example](https://vanolucas.com/).
 
 ## Run
 
