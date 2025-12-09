@@ -127,6 +127,30 @@ def _parse_period_location(lines: list[str]) -> tuple[str, str]:
     return "", ""
 
 
+def _extract_logo(lines: list[str]) -> str:
+    """Extract logo image (first image after period/location, before content sections)."""
+    past_period = False
+    for line in lines:
+        stripped = line.strip()
+        # Skip until we're past the period line
+        if PERIOD_LOCATION_PATTERN.match(stripped) or PERIOD_ONLY_PATTERN.match(stripped):
+            past_period = True
+            continue
+        # For education: period is just "YYYY-YYYY - Location"
+        if re.match(r"^\d{4}", stripped):
+            past_period = True
+            continue
+        if not past_period:
+            continue
+        # Stop at content sections
+        if stripped.startswith("#") or stripped.startswith("- "):
+            break
+        # Found logo image
+        if match := IMAGE_PATTERN.match(stripped):
+            return match.group(1)
+    return ""
+
+
 def _is_paragraph_line(line: str) -> bool:
     """Check if line is plain paragraph text (not metadata, heading, bullet, or image)."""
     stripped = line.strip()
@@ -198,6 +222,9 @@ def _parse_experiences(content: str) -> list[Experience]:
         title, company, company_url = match.groups()
         period, location = _parse_period_location(lines[1:])
 
+        # Extract logo (first image after period/location, before projects)
+        logo = _extract_logo(lines[1:])
+
         # Check for projects (##### headings)
         has_projects = "##### " in block
         projects = list(_parse_projects(block)) if has_projects else []
@@ -219,6 +246,7 @@ def _parse_experiences(content: str) -> list[Experience]:
                 description=description,
                 tech_stack=tech_stack,
                 projects=projects,
+                logo=logo,
             )
         )
 
@@ -348,6 +376,9 @@ def _parse_education(content: str) -> list[Education]:
                 location = parts[1].strip() if len(parts) > 1 else ""
                 break
 
+        # Extract logo
+        logo = _extract_logo(lines[1:])
+
         # Topics (bullet points) and distinction
         topics: list[str] = []
         distinction = ""
@@ -367,6 +398,7 @@ def _parse_education(content: str) -> list[Education]:
                 location=location,
                 topics=topics,
                 distinction=distinction,
+                logo=logo,
             )
         )
 

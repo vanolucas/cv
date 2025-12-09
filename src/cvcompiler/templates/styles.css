@@ -432,6 +432,34 @@ nav.menu-open #mobile-menu .glass-card {
    Cards
    ========================================================================== */
 
+/* Company/Institution Logos */
+.company-logo-container,
+.institution-logo-container {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.company-logo,
+.institution-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@media (max-width: 640px) {
+    .company-logo-container,
+    .institution-logo-container {
+        width: 48px;
+        height: 48px;
+        border-radius: 10px;
+    }
+}
+
 .project-card {
     background: linear-gradient(
         145deg,

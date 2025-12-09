@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lucas Vanoverberghe - CV</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwNzVhMiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2ViNjQ0MCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlYjY0NDAiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgcng9IjYiIGZpbGw9InVybCgjYmcpIi8+CiAgPHRleHQgeD0iNTAlIiB5PSI1NCUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiCiAgICAgICAgZmlsbD0id2hpdGUiIGZvbnQtZmFtaWx5PSJJbnRlciwgc3lzdGVtLXVpLCBzYW5zLXNlcmlmIgogICAgICAgIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI2MDAiPkxWPC90ZXh0Pgo8L3N2Zz4=">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -497,6 +498,34 @@ nav.menu-open #mobile-menu .glass-card {
 /* ==========================================================================
    Cards
    ========================================================================== */
+
+/* Company/Institution Logos */
+.company-logo-container,
+.institution-logo-container {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.company-logo,
+.institution-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@media (max-width: 640px) {
+    .company-logo-container,
+    .institution-logo-container {
+        width: 48px;
+        height: 48px;
+        border-radius: 10px;
+    }
+}
 
 .project-card {
     background: linear-gradient(
@@ -1029,16 +1058,21 @@ nav.menu-open #mobile-menu .glass-card {
                 <!-- Experience header -->
                 <div class="glass-card p-6 mb-6">
                     <div class="flex flex-wrap items-start justify-between gap-4">
-                        <div>
-                            <h3 class="text-2xl font-display font-semibold text-white mb-1">
-                                AI Tech Lead
-                            </h3>
-                            <a href="https://www.dieterengroup.com/dieteren-automotive/" target="_blank" rel="noopener" class="text-cyan-400 hover:text-cyan-300 transition-colors inline-flex items-center gap-1">
-                                D&#39;Ieteren
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                                </svg>
-                            </a>
+                        <div class="flex items-start gap-4">
+                            <div class="company-logo-container flex-shrink-0">
+                                <img src="img/dieteren.jpg" alt="D&#39;Ieteren" class="company-logo" loading="lazy">
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-display font-semibold text-white mb-1">
+                                    AI Tech Lead
+                                </h3>
+                                <a href="https://www.dieterengroup.com/dieteren-automotive/" target="_blank" rel="noopener" class="text-cyan-400 hover:text-cyan-300 transition-colors inline-flex items-center gap-1">
+                                    D&#39;Ieteren
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                                    </svg>
+                                </a>
+                            </div>
                         </div>
                         <div class="flex flex-wrap gap-2">
                             <span class="glass-pill-sm">2023-now</span>
@@ -1263,16 +1297,21 @@ nav.menu-open #mobile-menu .glass-card {
                 <!-- Experience header -->
                 <div class="glass-card p-6 mb-6">
                     <div class="flex flex-wrap items-start justify-between gap-4">
-                        <div>
-                            <h3 class="text-2xl font-display font-semibold text-white mb-1">
-                                Data Engineer &amp; BI Developer
-                            </h3>
-                            <a href="https://www.dieterengroup.com/dieteren-automotive/" target="_blank" rel="noopener" class="text-cyan-400 hover:text-cyan-300 transition-colors inline-flex items-center gap-1">
-                                D&#39;Ieteren
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                                </svg>
-                            </a>
+                        <div class="flex items-start gap-4">
+                            <div class="company-logo-container flex-shrink-0">
+                                <img src="img/dieteren.jpg" alt="D&#39;Ieteren" class="company-logo" loading="lazy">
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-display font-semibold text-white mb-1">
+                                    Data Engineer &amp; BI Developer
+                                </h3>
+                                <a href="https://www.dieterengroup.com/dieteren-automotive/" target="_blank" rel="noopener" class="text-cyan-400 hover:text-cyan-300 transition-colors inline-flex items-center gap-1">
+                                    D&#39;Ieteren
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                                    </svg>
+                                </a>
+                            </div>
                         </div>
                         <div class="flex flex-wrap gap-2">
                             <span class="glass-pill-sm">2016-2023</span>
@@ -1301,16 +1340,21 @@ nav.menu-open #mobile-menu .glass-card {
                 <!-- Experience header -->
                 <div class="glass-card p-6 mb-6">
                     <div class="flex flex-wrap items-start justify-between gap-4">
-                        <div>
-                            <h3 class="text-2xl font-display font-semibold text-white mb-1">
-                                Data Consultant
-                            </h3>
-                            <a href="https://www.akabi.eu/" target="_blank" rel="noopener" class="text-cyan-400 hover:text-cyan-300 transition-colors inline-flex items-center gap-1">
-                                AKABI
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                                </svg>
-                            </a>
+                        <div class="flex items-start gap-4">
+                            <div class="company-logo-container flex-shrink-0">
+                                <img src="img/akabi.png" alt="AKABI" class="company-logo" loading="lazy">
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-display font-semibold text-white mb-1">
+                                    Data Consultant
+                                </h3>
+                                <a href="https://www.akabi.eu/" target="_blank" rel="noopener" class="text-cyan-400 hover:text-cyan-300 transition-colors inline-flex items-center gap-1">
+                                    AKABI
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                                    </svg>
+                                </a>
+                            </div>
                         </div>
                         <div class="flex flex-wrap gap-2">
                             <span class="glass-pill-sm">2016-2023</span>
@@ -1337,16 +1381,21 @@ nav.menu-open #mobile-menu .glass-card {
                 <!-- Experience header -->
                 <div class="glass-card p-6 mb-6">
                     <div class="flex flex-wrap items-start justify-between gap-4">
-                        <div>
-                            <h3 class="text-2xl font-display font-semibold text-white mb-1">
-                                Data Vault Expert
-                            </h3>
-                            <a href="https://www.lacoste.com/" target="_blank" rel="noopener" class="text-cyan-400 hover:text-cyan-300 transition-colors inline-flex items-center gap-1">
-                                Lacoste
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                                </svg>
-                            </a>
+                        <div class="flex items-start gap-4">
+                            <div class="company-logo-container flex-shrink-0">
+                                <img src="img/lacoste.jpg" alt="Lacoste" class="company-logo" loading="lazy">
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-display font-semibold text-white mb-1">
+                                    Data Vault Expert
+                                </h3>
+                                <a href="https://www.lacoste.com/" target="_blank" rel="noopener" class="text-cyan-400 hover:text-cyan-300 transition-colors inline-flex items-center gap-1">
+                                    Lacoste
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                                    </svg>
+                                </a>
+                            </div>
                         </div>
                         <div class="flex flex-wrap gap-2">
                             <span class="glass-pill-sm">2020-2021</span>
@@ -1364,16 +1413,21 @@ nav.menu-open #mobile-menu .glass-card {
                 <!-- Experience header -->
                 <div class="glass-card p-6 mb-6">
                     <div class="flex flex-wrap items-start justify-between gap-4">
-                        <div>
-                            <h3 class="text-2xl font-display font-semibold text-white mb-1">
-                                iOS Developer
-                            </h3>
-                            <a href="https://www.instagram.com/stumberapp/" target="_blank" rel="noopener" class="text-cyan-400 hover:text-cyan-300 transition-colors inline-flex items-center gap-1">
-                                Stumber
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                                </svg>
-                            </a>
+                        <div class="flex items-start gap-4">
+                            <div class="company-logo-container flex-shrink-0">
+                                <img src="img/stumber.jpg" alt="Stumber" class="company-logo" loading="lazy">
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-display font-semibold text-white mb-1">
+                                    iOS Developer
+                                </h3>
+                                <a href="https://www.instagram.com/stumberapp/" target="_blank" rel="noopener" class="text-cyan-400 hover:text-cyan-300 transition-colors inline-flex items-center gap-1">
+                                    Stumber
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                                    </svg>
+                                </a>
+                            </div>
                         </div>
                         <div class="flex flex-wrap gap-2">
                             <span class="glass-pill-sm">Sep.-dec. 2015</span>
@@ -1400,16 +1454,21 @@ nav.menu-open #mobile-menu .glass-card {
                 <!-- Experience header -->
                 <div class="glass-card p-6 mb-6">
                     <div class="flex flex-wrap items-start justify-between gap-4">
-                        <div>
-                            <h3 class="text-2xl font-display font-semibold text-white mb-1">
-                                Web Developer
-                            </h3>
-                            <a href="https://www.sendsteps.com/" target="_blank" rel="noopener" class="text-cyan-400 hover:text-cyan-300 transition-colors inline-flex items-center gap-1">
-                                Sendsteps
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                                </svg>
-                            </a>
+                        <div class="flex items-start gap-4">
+                            <div class="company-logo-container flex-shrink-0">
+                                <img src="img/sendsteps.png" alt="Sendsteps" class="company-logo" loading="lazy">
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-display font-semibold text-white mb-1">
+                                    Web Developer
+                                </h3>
+                                <a href="https://www.sendsteps.com/" target="_blank" rel="noopener" class="text-cyan-400 hover:text-cyan-300 transition-colors inline-flex items-center gap-1">
+                                    Sendsteps
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                                    </svg>
+                                </a>
+                            </div>
                         </div>
                         <div class="flex flex-wrap gap-2">
                             <span class="glass-pill-sm">Jan.-may. 2013</span>
@@ -1597,16 +1656,21 @@ nav.menu-open #mobile-menu .glass-card {
 
                     <div class="glass-card p-6 flex-1">
                         <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
-                            <div>
-                                <h3 class="text-xl font-display font-semibold text-white">
-                                    Master&#39;s degree in Computer Science
-                                </h3>
-                                <a href="https://web.umons.ac.be/" target="_blank" rel="noopener" class="text-cyan-400 hover:text-cyan-300 transition-colors inline-flex items-center gap-1">
-                                    UMONS
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                                    </svg>
-                                </a>
+                            <div class="flex items-start gap-4">
+                                <div class="institution-logo-container flex-shrink-0">
+                                    <img src="img/umons.jpg" alt="UMONS" class="institution-logo" loading="lazy">
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-display font-semibold text-white">
+                                        Master&#39;s degree in Computer Science
+                                    </h3>
+                                    <a href="https://web.umons.ac.be/" target="_blank" rel="noopener" class="text-cyan-400 hover:text-cyan-300 transition-colors inline-flex items-center gap-1">
+                                        UMONS
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                                        </svg>
+                                    </a>
+                                </div>
                             </div>
                             <div class="flex flex-wrap gap-2">
                                 <span class="glass-pill-sm">2013-2016</span>
@@ -1647,16 +1711,21 @@ nav.menu-open #mobile-menu .glass-card {
 
                     <div class="glass-card p-6 flex-1">
                         <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
-                            <div>
-                                <h3 class="text-xl font-display font-semibold text-white">
-                                    Bachelor&#39;s degree in IT Systems &amp; Technologies
-                                </h3>
-                                <a href="https://www.helha.be/" target="_blank" rel="noopener" class="text-cyan-400 hover:text-cyan-300 transition-colors inline-flex items-center gap-1">
-                                    HELHa
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                                    </svg>
-                                </a>
+                            <div class="flex items-start gap-4">
+                                <div class="institution-logo-container flex-shrink-0">
+                                    <img src="img/helha.jpg" alt="HELHa" class="institution-logo" loading="lazy">
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-display font-semibold text-white">
+                                        Bachelor&#39;s degree in IT Systems &amp; Technologies
+                                    </h3>
+                                    <a href="https://www.helha.be/" target="_blank" rel="noopener" class="text-cyan-400 hover:text-cyan-300 transition-colors inline-flex items-center gap-1">
+                                        HELHa
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                                        </svg>
+                                    </a>
+                                </div>
                             </div>
                             <div class="flex flex-wrap gap-2">
                                 <span class="glass-pill-sm">2010-2013</span>
@@ -1691,16 +1760,21 @@ nav.menu-open #mobile-menu .glass-card {
 
                     <div class="glass-card p-6 flex-1">
                         <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
-                            <div>
-                                <h3 class="text-xl font-display font-semibold text-white">
-                                    French Baccalauréat in Sciences
-                                </h3>
-                                <a href="https://www.bpascal.fr/" target="_blank" rel="noopener" class="text-cyan-400 hover:text-cyan-300 transition-colors inline-flex items-center gap-1">
-                                    Lycée Blaise Pascal
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                                    </svg>
-                                </a>
+                            <div class="flex items-start gap-4">
+                                <div class="institution-logo-container flex-shrink-0">
+                                    <img src="img/lycee_blaise_pascal.png" alt="Lycée Blaise Pascal" class="institution-logo" loading="lazy">
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-display font-semibold text-white">
+                                        French Baccalauréat in Sciences
+                                    </h3>
+                                    <a href="https://www.bpascal.fr/" target="_blank" rel="noopener" class="text-cyan-400 hover:text-cyan-300 transition-colors inline-flex items-center gap-1">
+                                        Lycée Blaise Pascal
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                                        </svg>
+                                    </a>
+                                </div>
                             </div>
                             <div class="flex flex-wrap gap-2">
                                 <span class="glass-pill-sm">2007-2010</span>

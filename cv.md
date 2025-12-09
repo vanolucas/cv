@@ -15,6 +15,8 @@ career_start = 2016-01-01
 
 *2023-now* - Braine-l'Alleud, Belgium
 
+![](img/dieteren.jpg)
+
 #### Projects
 
 ##### Amelia WhatsApp AI assistant
@@ -100,6 +102,8 @@ career_start = 2016-01-01
 
 *2016-2023* - Braine-l'Alleud, Belgium
 
+![](img/dieteren.jpg)
+
 Data marts and reporting for Sales, Aftersales, CRM covering a broad variety of D'Ieteren's activities and companies.
 
 #### Tech stack
@@ -118,6 +122,8 @@ Data marts and reporting for Sales, Aftersales, CRM covering a broad variety of 
 
 *2016-2023* - Brussels, Belgium
 
+![](img/akabi.png)
+
 - BI and Data Engineering
 - Created trainings and seminars
 
@@ -125,11 +131,15 @@ Data marts and reporting for Sales, Aftersales, CRM covering a broad variety of 
 
 *2020-2021* - Paris, France
 
+![](img/lacoste.jpg)
+
 5-days coaching mission to help design an enterprise-wide Data Vault data warehouse model for all retail business activities of Lacoste.
 
 ### iOS Developer @ [Stumber](https://www.instagram.com/stumberapp/)
 
 *Sep.-dec. 2015* - Brussels, Belgium
+
+![](img/stumber.jpg)
 
 - End-to-end development of an iOS application with Swift.
 - Stumber was a tailored social network app for university students and companies.
@@ -137,6 +147,8 @@ Data marts and reporting for Sales, Aftersales, CRM covering a broad variety of 
 ### Web Developer @ [Sendsteps](https://www.sendsteps.com/)
 
 *Jan.-may. 2013* - Amsterdam, Netherlands
+
+![](img/sendsteps.png)
 
 - Internship in Dutch market leader in mobile interaction during presentations.
 - Developed a real time web application to record audience interaction (votes, questions,…) and performed website maintenance.
@@ -222,6 +234,8 @@ Passed with 94% score.
 
 2013-2016 - Mons, Belgium
 
+![](img/umons.jpg)
+
 - Software engineering and evolution
 - Optimization and metaheuristics
 - Machine learning
@@ -240,6 +254,8 @@ Diploma obtained in 2019 with distinction.
 
 2010-2013 - Tournai, Belgium
 
+![](img/helha.jpg)
+
 - Application development
 - Networks
 - Systems administration and maintenance
@@ -251,6 +267,8 @@ Diploma obtained with distinction.
 ### French Baccalauréat in Sciences @ [Lycée Blaise Pascal](https://www.bpascal.fr/)
 
 2007-2010 - Longuenesse, France
+
+![](img/lycee_blaise_pascal.png)
 
 Sciences de l'ingénieur.
 Obtained the Engineering Science Baccalauréat (i.e. French National Examination for access to higher education studies) with honours.

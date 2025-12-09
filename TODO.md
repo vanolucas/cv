@@ -1,3 +1,15 @@
+## Ongoing
+
+- [ ] Fix: two elements have the same `id="experience"`
+
+## To-do
+
+- [ ] Feat: images
+- [ ] Feat: Oracle certif widget
+- [ ] Fix: console warning `(index):64 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI`
+
+## Done
+
 - [x] Feat: themes
 - [x] Fix: wrong colors in themes
 - [x] Feat: copyright year autoupdate
@@ -19,13 +31,9 @@
 - [x] Fix: the Role elements use a color that is not from the theme (`text-purple-400`). Adapt it to use a color from the theme (like we do for other UI elements).
 - [x] Fix: newline between sections in HTML
 - [x] Fix: small horizontal scroll when page not yet fully scrolled on mobile. That width issue resolves as soon as we scroll all the way down to the bottom.
-
-- [ ] Feat: company logos
-
-- [ ] Feat: generate favicon with initials
-- [ ] Feat: images
-- [ ] Feat: school logos
-- [ ] Feat: Oracle certif widget
+- [x] Feat: generate favicon with initials
+- [x] Feat: company logos
+- [x] Feat: school logos
 
 ## Won't do
 

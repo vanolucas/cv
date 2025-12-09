@@ -22,6 +22,7 @@ class Experience:
     description: list[str]  # Paragraphs or bullet points
     tech_stack: list[str]
     projects: list[Project]
+    logo: str = ""
 
 
 @dataclass
@@ -46,6 +47,7 @@ class Education:
     location: str
     topics: list[str]
     distinction: str
+    logo: str = ""
 
 
 @dataclass
