@@ -12,7 +12,7 @@
         {
             "label": "run",
             "type": "shell",
-            "command": "uv run --env-file .env cvcompiler",
+            "command": "uv run cvcompiler",
             "problemMatcher": []
         },
         {

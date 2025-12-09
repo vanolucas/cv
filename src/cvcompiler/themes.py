@@ -54,19 +54,43 @@ class Theme:
     colors: ThemeColors
     effects: ThemeEffects
 
-    def _css_variable_lines(self) -> list[str]:
+    def _color_css_vars(self) -> list[str]:
+        """Generate CSS variables for theme colors."""
         lines: list[str] = []
         for field_name in self.colors.__dataclass_fields__:
             css_name = field_name.replace("_", "-")
             value = getattr(self.colors, field_name)
             lines.append(f"    --{css_name}: {value};")
-        lines.append(f"    --blur-amount: {self.effects.blur_amount};")
-        lines.append(f"    --glass-opacity: {self.effects.glass_opacity};")
-        lines.append(f"    --border-opacity: {self.effects.border_opacity};")
         return lines
+
+    def _effect_css_vars(self) -> list[str]:
+        """Generate CSS variables for theme effects."""
+        return [
+            f"    --blur-amount: {self.effects.blur_amount};",
+            f"    --glass-opacity: {self.effects.glass_opacity};",
+            f"    --border-opacity: {self.effects.border_opacity};",
+        ]
+
+    def _css_variable_lines(self) -> list[str]:
+        return [*self._color_css_vars(), *self._effect_css_vars()]
 
     def to_css_variables(self, selector: str = ":root") -> str:
         return "\n".join([f"{selector} {{", *self._css_variable_lines(), "}"])
+
+
+def _load_theme_data(theme_path: Path) -> dict:
+    """Load and parse theme JSON file."""
+    return json.loads(theme_path.read_text(encoding="utf-8"))
+
+
+def _create_theme_from_data(data: dict) -> Theme:
+    """Construct Theme object from parsed data."""
+    return Theme(
+        name=data["name"],
+        display_name=data["display_name"],
+        colors=ThemeColors(**data["colors"]),
+        effects=ThemeEffects(**data["effects"]),
+    )
 
 
 def load_theme(name: str) -> Theme:
@@ -75,14 +99,8 @@ def load_theme(name: str) -> Theme:
     if not theme_path.exists():
         raise ValueError(f"Theme '{name}' not found at {theme_path}")
 
-    data = json.loads(theme_path.read_text(encoding="utf-8"))
-
-    return Theme(
-        name=data["name"],
-        display_name=data["display_name"],
-        colors=ThemeColors(**data["colors"]),
-        effects=ThemeEffects(**data["effects"]),
-    )
+    data = _load_theme_data(theme_path)
+    return _create_theme_from_data(data)
 
 
 def list_available_themes() -> list[str]:

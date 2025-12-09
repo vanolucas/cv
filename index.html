@@ -1023,7 +1023,7 @@ nav.menu-open #mobile-menu .glass-card {
                 <span id="age" data-birth="1992-06-25">--</span>&nbsp;years old
             </div>
             <div class="glass-pill">
-                <span id="experience" data-start="2016-01-01">--</span>&nbsp;years of experience
+                <span id="years-experience" data-start="2016-01-01">--</span>&nbsp;years of experience
             </div>
         </div>
 
@@ -1913,7 +1913,7 @@ function calculateYearsOfExperience(startDate) {
 // Update dynamic values
 document.addEventListener('DOMContentLoaded', () => {
     const ageEl = document.getElementById('age');
-    const expEl = document.getElementById('experience');
+    const expEl = document.getElementById('years-experience');
     const yearEl = document.getElementById('year');
 
     if (ageEl && ageEl.dataset.birth) {

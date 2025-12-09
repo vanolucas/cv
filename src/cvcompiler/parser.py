@@ -15,6 +15,12 @@ from .models import (
     SkillCategory,
 )
 
+# Section headings
+SECTION_H2 = "## "
+SECTION_H3 = "###"
+SECTION_H4 = "####"
+SECTION_H5 = "#####"
+
 # Regex patterns
 HEADER_PATTERN = re.compile(r"(.+?) @ \[(.+?)\]\((.+?)\)")
 PERIOD_LOCATION_PATTERN = re.compile(r"^\*(.+?)\*\s*-\s*(.+)$")
@@ -51,10 +57,10 @@ def _split_sections(content: str) -> dict[str, str]:
     current_lines: list[str] = []
 
     for line in content.split("\n"):
-        if line.startswith("## ") and not line.startswith("### "):
+        if line.startswith(SECTION_H2) and not line.startswith(SECTION_H3):
             if current_section:
                 sections[current_section] = "\n".join(current_lines)
-            current_section = line[3:].strip()
+            current_section = line[len(SECTION_H2):].strip()
             current_lines = []
         else:
             current_lines.append(line)
@@ -92,8 +98,9 @@ def _parse_profile(content: str) -> Profile:
 
     for line in lines:
         # Extract image
-        if match := IMAGE_PATTERN.match(line):
-            image = match.group(1)
+        url = _extract_image_url(line)
+        if url:
+            image = url
             continue
         clean = line.replace("**", "").strip()
         if line.startswith("**") and not headline and "•" not in line:
@@ -127,6 +134,13 @@ def _parse_period_location(lines: list[str]) -> tuple[str, str]:
     return "", ""
 
 
+def _extract_image_url(line: str) -> str:
+    """Extract image URL from markdown image syntax. Returns empty string if not found."""
+    if match := IMAGE_PATTERN.search(line.strip()):
+        return match.group(1)
+    return ""
+
+
 def _extract_logo(lines: list[str]) -> str:
     """Extract logo image (first image after period/location, before content sections)."""
     past_period = False
@@ -143,24 +157,33 @@ def _extract_logo(lines: list[str]) -> str:
         if not past_period:
             continue
         # Stop at content sections
-        if stripped.startswith("#") or stripped.startswith("- "):
+        if stripped.startswith("#") or _is_bullet_item(line):
             break
         # Found logo image
-        if match := IMAGE_PATTERN.match(stripped):
-            return match.group(1)
+        url = _extract_image_url(line)
+        if url:
+            return url
     return ""
 
 
 def _is_paragraph_line(line: str) -> bool:
     """Check if line is plain paragraph text (not metadata, heading, bullet, or image)."""
     stripped = line.strip()
-    return bool(
-        stripped
-        and not stripped.startswith("*")
-        and not stripped.startswith("#")
-        and not stripped.startswith("-")
-        and not stripped.startswith("![")
+    if not stripped:
+        return False
+    return not any(
+        stripped.startswith(prefix) for prefix in ("*", "#", "-", "![")
     )
+
+
+def _is_tech_stack_section(line: str) -> bool:
+    """Check if line starts a tech stack section."""
+    return line.strip().startswith(f"{SECTION_H4} Tech stack")
+
+
+def _is_section_heading(line: str, level: str) -> bool:
+    """Check if line is a section heading at the specified level."""
+    return line.strip().startswith(level)
 
 
 def _extract_experience_content(lines: list[str]) -> tuple[list[str], list[str]]:
@@ -181,12 +204,12 @@ def _extract_experience_content(lines: list[str]) -> tuple[list[str], list[str]]
         stripped = line.strip()
 
         # Detect #### Tech stack section start
-        if stripped.startswith("#### Tech stack"):
+        if _is_tech_stack_section(line):
             in_tech_section = True
             continue
 
         # Detect any other #### section (stops tech stack parsing)
-        if stripped.startswith("#### "):
+        if _is_section_heading(line, SECTION_H4):
             in_tech_section = False
             continue
 
@@ -208,6 +231,13 @@ def _extract_experience_content(lines: list[str]) -> tuple[list[str], list[str]]
     return description, tech_stack
 
 
+def _parse_header_with_link(header: str) -> tuple[str, str, str] | None:
+    """Parse 'Title @ [Company](url)' format. Returns (title, company, url) or None."""
+    if match := HEADER_PATTERN.match(header):
+        return match.groups()
+    return None
+
+
 def _parse_experiences(content: str) -> list[Experience]:
     experiences: list[Experience] = []
 
@@ -215,18 +245,18 @@ def _parse_experiences(content: str) -> list[Experience]:
         lines = block.split("\n")
         header = lines[0][4:].strip()  # Remove "### "
 
-        match = HEADER_PATTERN.match(header)
-        if not match:
+        parsed = _parse_header_with_link(header)
+        if not parsed:
             continue
 
-        title, company, company_url = match.groups()
+        title, company, company_url = parsed
         period, location = _parse_period_location(lines[1:])
 
         # Extract logo (first image after period/location, before projects)
         logo = _extract_logo(lines[1:])
 
         # Check for projects (##### headings)
-        has_projects = "##### " in block
+        has_projects = SECTION_H5 in block
         projects = list(_parse_projects(block)) if has_projects else []
 
         # Extract description and tech_stack (only relevant for experiences without projects)
@@ -256,6 +286,25 @@ def _parse_experiences(content: str) -> list[Experience]:
 # -- Projects --
 
 
+BULLET_PREFIX = "- "
+INDENT_CHARS = ("\t", "  ")
+
+
+def _is_bullet_item(line: str) -> bool:
+    """Check if line is a bullet list item."""
+    return line.strip().startswith(BULLET_PREFIX)
+
+
+def _is_indented(line: str) -> bool:
+    """Check if line is indented (tab or spaces)."""
+    return line.startswith(INDENT_CHARS)
+
+
+def _extract_bullet_text(line: str) -> str:
+    """Remove bullet marker and strip whitespace."""
+    return line.strip()[len(BULLET_PREFIX):].strip()
+
+
 def _parse_bullet_content(lines: list[str]) -> tuple[list[str], list[str], list[str]]:
     """Parse structured bullet content into description, role, and tech_stack."""
     description: list[str] = []
@@ -267,19 +316,19 @@ def _parse_bullet_content(lines: list[str]) -> tuple[list[str], list[str], list[
         stripped = line.strip()
 
         # Category headers (top-level, not indented)
-        if stripped == "- Role":
+        if stripped == f"{BULLET_PREFIX}Role":
             current = role
-        elif stripped == "- Tech stack":
+        elif stripped == f"{BULLET_PREFIX}Tech stack":
             current = tech_stack
         # Sub-items (indented) - check BEFORE top-level bullets
-        elif line.startswith("\t") or line.startswith("  "):
-            item = stripped.lstrip("- ").strip()
+        elif _is_indented(line):
+            item = _extract_bullet_text(line)
             if item:
                 current.append(item)
         # Top-level bullets (description only)
-        elif stripped.startswith("- "):
+        elif _is_bullet_item(line):
             if current is description:
-                description.append(stripped[2:])
+                description.append(_extract_bullet_text(line))
 
     return description, role, tech_stack
 
@@ -293,8 +342,8 @@ def _parse_projects(block: str) -> Iterator[Project]:
         # Extract image URL
         image = ""
         for line in lines[1:]:
-            if match := IMAGE_PATTERN.search(line.strip()):
-                image = match.group(1)
+            image = _extract_image_url(line)
+            if image:
                 break
 
         description, role, tech_stack = _parse_bullet_content(lines[1:])
@@ -323,10 +372,11 @@ def _parse_skills(content: str) -> list[SkillCategory]:
 
         for line in lines[1:]:
             stripped = line.strip()
-            if match := IMAGE_PATTERN.search(stripped):
-                image = match.group(1)
-            elif stripped.startswith("- "):
-                items.append(stripped[2:])
+            url = _extract_image_url(line)
+            if url:
+                image = url
+            elif _is_bullet_item(line):
+                items.append(_extract_bullet_text(line))
 
         categories.append(SkillCategory(title=title, image=image, items=items))
 
@@ -360,11 +410,11 @@ def _parse_education(content: str) -> list[Education]:
         lines = block.split("\n")
         header = lines[0][4:].strip()
 
-        match = HEADER_PATTERN.match(header)
-        if not match:
+        parsed = _parse_header_with_link(header)
+        if not parsed:
             continue
 
-        degree, institution, institution_url = match.groups()
+        degree, institution, institution_url = parsed
 
         # Period and location from line like "2013-2016 - Mons, Belgium"
         period, location = "", ""
@@ -384,8 +434,8 @@ def _parse_education(content: str) -> list[Education]:
         distinction = ""
         for line in lines[1:]:
             stripped = line.strip()
-            if stripped.startswith("- "):
-                topics.append(stripped[2:])
+            if _is_bullet_item(line):
+                topics.append(_extract_bullet_text(line))
             elif "distinction" in stripped.lower() or "obtained" in stripped.lower():
                 distinction = stripped
 
@@ -432,13 +482,13 @@ def _parse_links(content: str) -> list[Link]:
 
     for line in content.split("\n"):
         stripped = line.strip()
-        if not stripped.startswith("- "):
+        if not _is_bullet_item(line):
             continue
 
         if match := LINK_PATTERN.search(stripped):
             links.append(Link(name=match.group(1), url=match.group(2)))
         elif "@" in stripped:
-            email = stripped[2:].strip()
+            email = _extract_bullet_text(line)
             links.append(Link(name=email, url=f"mailto:{email}"))
 
     return links

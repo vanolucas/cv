@@ -23,7 +23,7 @@ function calculateYearsOfExperience(startDate) {
 // Update dynamic values
 document.addEventListener('DOMContentLoaded', () => {
     const ageEl = document.getElementById('age');
-    const expEl = document.getElementById('experience');
+    const expEl = document.getElementById('years-experience');
     const yearEl = document.getElementById('year');
 
     if (ageEl && ageEl.dataset.birth) {

@@ -14,35 +14,44 @@ DEFAULT_LIGHT_THEME = "vivid"
 DEFAULT_DARK_THEME = "dark_purple"
 
 
+def _display_theme_options(themes: list[str], default: str) -> None:
+    """Display available themes with their display names."""
+    for i, name in enumerate(themes, 1):
+        theme = load_theme(name)
+        marker = " (default)" if name == default else ""
+        logger.info(f"  [{i}] {theme.display_name}{marker}")
+
+
+def _get_theme_selection(themes: list[str], default: str) -> int:
+    """Get valid theme selection index from user input."""
+    default_idx = themes.index(default) if default in themes else 0
+
+    while True:
+        choice = input("\nSelect theme (number) or Enter for default: ").strip()
+        if not choice:
+            return default_idx
+        try:
+            index = int(choice) - 1
+            if 0 <= index < len(themes):
+                return index
+        except ValueError:
+            pass
+        logger.info(f"Please enter a number between 1 and {len(themes)}")
+
+
 def _prompt_theme_choice(prompt: str, default: str) -> Theme:
     themes = list_available_themes()
     if not themes:
         logger.error("❌ No themes found in themes/ directory")
         raise SystemExit(1)
 
-    default_idx = themes.index(default) if default in themes else 0
-
     logger.info(f"\n🎨 {prompt}")
-    for i, name in enumerate(themes, 1):
-        theme = load_theme(name)
-        marker = " (default)" if name == default else ""
-        logger.info(f"  [{i}] {theme.display_name}{marker}")
+    _display_theme_options(themes, default)
 
-    while True:
-        choice = input(f"\nSelect theme (number) or Enter for default: ").strip()
-        if not choice:
-            selected = load_theme(themes[default_idx])
-            logger.info(f"✅ Using: {selected.display_name}")
-            return selected
-        try:
-            index = int(choice) - 1
-            if 0 <= index < len(themes):
-                selected = load_theme(themes[index])
-                logger.info(f"✅ Using: {selected.display_name}")
-                return selected
-        except ValueError:
-            pass
-        logger.info(f"Please enter a number between 1 and {len(themes)}")
+    index = _get_theme_selection(themes, default)
+    selected = load_theme(themes[index])
+    logger.info(f"✅ Using: {selected.display_name}")
+    return selected
 
 
 def select_themes() -> tuple[Theme, Theme]:
