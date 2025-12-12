@@ -61,7 +61,9 @@ def select_themes() -> tuple[Theme, Theme]:
     return light, dark
 
 
-def compile_cv(source: Path, output_dir: Path, light_theme: Theme, dark_theme: Theme) -> Path:
+def compile_cv(
+    source: Path, output_dir: Path, light_theme: Theme, dark_theme: Theme
+) -> Path:
     """Compile a CV markdown file to HTML."""
     logger.info(f"📄 Reading {source.name}...")
     content = source.read_text(encoding="utf-8")

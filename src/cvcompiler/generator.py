@@ -33,12 +33,14 @@ def generate_html(cv: CV, light_theme: Theme, dark_theme: Theme) -> str:
     favicon_svg = generate_favicon_svg(cv.profile.initials, light_theme)
     favicon_uri = favicon_to_data_uri(favicon_svg)
 
-    return template.render(
+    html = template.render(
         cv=cv,
         light_theme=light_theme,
         dark_theme=dark_theme,
         favicon_uri=favicon_uri,
-    )
+    ).strip()
+
+    return html + "\n"
 
 
 def write_output(html: str, output_path: Path) -> None:

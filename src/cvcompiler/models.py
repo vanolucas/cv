@@ -84,5 +84,7 @@ class CV:
     languages: list[Language] = field(default_factory=list)
     contact: list[Link] = field(default_factory=list)
     socials: list[Link] = field(default_factory=list)
-    html_embeds: dict[str, list[str]] = field(default_factory=dict)  # section -> HTML blocks
+    html_embeds: dict[str, list[str]] = field(
+        default_factory=dict
+    )  # section -> HTML blocks
     google_analytics_id: str = ""

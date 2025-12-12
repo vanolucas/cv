@@ -63,7 +63,9 @@
     </div>
 
     <!-- Navigation -->
+    {% filter indent(width=4) %}
     {% include 'nav.html' %}
+    {% endfilter %}
 
     {# Macro to render HTML embeds for a section #}
     {% macro render_embeds(section_key) %}
@@ -74,19 +76,21 @@
 
     <!-- Main content -->
     <main>
-        {% include 'profile.html' %}
+        {% filter indent(width=8) %}
+        {% include 'profile.html' -%}
         {{ render_embeds('profile') }}
-        {% include 'experience.html' %}
+        {% include 'experience.html' -%}
         {{ render_embeds('experience') }}
-        {% include 'skills.html' %}
+        {% include 'skills.html' -%}
         {{ render_embeds('skills_and_technologies') }}
-        {% include 'certifications.html' %}
-        {% include 'education.html' %}
+        {% include 'certifications.html' -%}
+        {% include 'education.html' -%}
         {{ render_embeds('education') }}
-        {% include 'languages.html' %}
+        {% include 'languages.html' -%}
         {{ render_embeds('languages') }}
-        {% include 'contact.html' %}
+        {% include 'contact.html' -%}
         {{ render_embeds('contact') }}
+        {% endfilter %}
     </main>
 
     <!-- Footer -->
