@@ -3,7 +3,7 @@
 import re
 from collections.abc import Iterator
 
-from .markdown import extract_html_blocks, process_text
+from .markdown import extract_html_blocks
 from .models import (
     CV,
     Certification,
@@ -89,7 +89,7 @@ def _split_sections(content: str) -> dict[str, str]:
         if line.startswith(SECTION_H2) and not line.startswith(SECTION_H3):
             if current_section:
                 sections[current_section] = "\n".join(current_lines)
-            current_section = line[len(SECTION_H2):].strip()
+            current_section = line[len(SECTION_H2) :].strip()
             current_lines = []
         else:
             current_lines.append(line)
@@ -176,7 +176,9 @@ def _extract_logo(lines: list[str]) -> str:
     for line in lines:
         stripped = line.strip()
         # Skip until we're past the period line
-        if PERIOD_LOCATION_PATTERN.match(stripped) or PERIOD_ONLY_PATTERN.match(stripped):
+        if PERIOD_LOCATION_PATTERN.match(stripped) or PERIOD_ONLY_PATTERN.match(
+            stripped
+        ):
             past_period = True
             continue
         # For education: period is just "YYYY-YYYY - Location"
@@ -200,9 +202,7 @@ def _is_paragraph_line(line: str) -> bool:
     stripped = line.strip()
     if not stripped:
         return False
-    return not any(
-        stripped.startswith(prefix) for prefix in ("*", "#", "-", "![")
-    )
+    return not any(stripped.startswith(prefix) for prefix in ("*", "#", "-", "!["))
 
 
 def _is_tech_stack_section(line: str) -> bool:
@@ -263,7 +263,8 @@ def _extract_experience_content(lines: list[str]) -> tuple[list[str], list[str]]
 def _parse_header_with_link(header: str) -> tuple[str, str, str] | None:
     """Parse 'Title @ [Company](url)' format. Returns (title, company, url) or None."""
     if match := HEADER_PATTERN.match(header):
-        return match.groups()
+        title, company, url = match.groups()
+        return title, company, url
     return None
 
 
@@ -331,7 +332,7 @@ def _is_indented(line: str) -> bool:
 
 def _extract_bullet_text(line: str) -> str:
     """Remove bullet marker and strip whitespace."""
-    return line.strip()[len(BULLET_PREFIX):].strip()
+    return line.strip()[len(BULLET_PREFIX) :].strip()
 
 
 def _parse_bullet_content(lines: list[str]) -> tuple[list[str], list[str], list[str]]:
@@ -400,7 +401,6 @@ def _parse_skills(content: str) -> list[SkillCategory]:
         items: list[str] = []
 
         for line in lines[1:]:
-            stripped = line.strip()
             url = _extract_image_url(line)
             if url:
                 image = url
@@ -428,7 +428,9 @@ def _parse_certifications(content: str) -> list[Certification]:
         description = " ".join(
             ln.strip() for ln in lines[1:] if ln.strip() and not ln.startswith("#")
         )
-        certs.append(Certification(title=title, description=description, html_embed=html_embed))
+        certs.append(
+            Certification(title=title, description=description, html_embed=html_embed)
+        )
 
     return certs
 

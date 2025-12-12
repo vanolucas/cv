@@ -178,31 +178,31 @@ window.addEventListener('scroll', () => {
 function updateActiveNavLink() {
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link, .nav-link-mobile');
-    
+
     const scrollPosition = window.scrollY + window.innerHeight / 3;
-    
+
     let activeSection = null;
-    
+
     sections.forEach(section => {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.offsetHeight;
         const sectionId = section.getAttribute('id');
-        
+
         if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
             activeSection = sectionId;
         }
     });
-    
+
     // Special case: if at the very top, activate profile
     if (window.scrollY < 100) {
         activeSection = 'profile';
     }
-    
+
     navLinks.forEach(link => {
         const href = link.getAttribute('href');
         if (href && href.startsWith('#')) {
             const targetId = href.substring(1);
-            
+
             if (targetId === activeSection) {
                 link.classList.add('active');
             } else {
@@ -218,7 +218,7 @@ window.addEventListener('scroll', () => {
     if (scrollTimeout) {
         window.cancelAnimationFrame(scrollTimeout);
     }
-    
+
     scrollTimeout = window.requestAnimationFrame(() => {
         updateActiveNavLink();
     });

@@ -13,7 +13,9 @@ class FaviconConfig:
     font_weight: int = 600
 
 
-def generate_favicon_svg(initials: str, theme: Theme, config: FaviconConfig | None = None) -> str:
+def generate_favicon_svg(
+    initials: str, theme: Theme, config: FaviconConfig | None = None
+) -> str:
     """Generate SVG favicon with initials on gradient background."""
     cfg = config or FaviconConfig()
     colors = theme.colors
