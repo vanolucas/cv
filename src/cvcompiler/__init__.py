@@ -27,7 +27,7 @@ def _get_theme_selection(themes: list[str], default: str) -> int:
     default_idx = themes.index(default) if default in themes else 0
 
     while True:
-        choice = input("\nSelect theme (number) or Enter for default: ").strip()
+        choice = input("\nSelect theme (number) or [Enter] for default: ").strip()
         if not choice:
             return default_idx
         try:

@@ -1,3 +1,4 @@
+canonical_url = https://vanolucas.com/
 google_analytics_id = G-KRLS8DS3E9
 
 ## Profile
