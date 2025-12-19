@@ -88,3 +88,4 @@ class CV:
         default_factory=dict
     )  # section -> HTML blocks
     google_analytics_id: str = ""
+    canonical_url: str = ""

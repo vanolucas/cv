@@ -31,12 +31,14 @@ DATE_PATTERN = re.compile(r"(\w+)\s*=\s*(\d{4}-\d{2}-\d{2})")
 LANGUAGE_PATTERN = re.compile(r"- (.+?): (.+?) \((\d+)%\)")
 LINK_PATTERN = re.compile(r"\[(.+?)\]\((.+?)\)")
 GOOGLE_ANALYTICS_PATTERN = re.compile(r"^google_analytics_id\s*=\s*(.+)$", re.MULTILINE)
+CANONICAL_URL_PATTERN = re.compile(r"^canonical_url\s*=\s*(.+)$", re.MULTILINE)
 
 
 def parse_cv(content: str) -> CV:
     """Parse markdown CV content into structured data."""
     # Extract metadata from preamble (before first section)
     google_analytics_id = _extract_google_analytics_id(content)
+    canonical_url = _extract_canonical_url(content)
 
     raw_sections = _split_sections(content)
 
@@ -67,12 +69,19 @@ def parse_cv(content: str) -> CV:
         socials=_parse_links(sections.get("Socials", "")),
         html_embeds=html_embeds,
         google_analytics_id=google_analytics_id,
+        canonical_url=canonical_url,
     )
 
 
 def _extract_google_analytics_id(content: str) -> str:
     """Extract Google Analytics ID from markdown preamble."""
     match = GOOGLE_ANALYTICS_PATTERN.search(content)
+    return match.group(1).strip() if match else ""
+
+
+def _extract_canonical_url(content: str) -> str:
+    """Extract canonical URL from markdown preamble."""
+    match = CANONICAL_URL_PATTERN.search(content)
     return match.group(1).strip() if match else ""
 
 
