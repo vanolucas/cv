@@ -22,9 +22,9 @@ Install [uv](https://github.com/astral-sh/uv).
 
 3. Follow instructions to select your themes.
 
-4. `index.html` gets generated.
+4. `index.html` gets generated (and `sitemap.xml` if you configured `canonical_url` in your CV).
 
-5. Host your single-page CV website wherever you like (`index.html` + `img/` directory).
+5. Host your single-page CV website wherever you like (`index.html` + `sitemap.xml` + `img/` directory).
 
 ## Edit colors
 
