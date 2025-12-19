@@ -1,10 +1,12 @@
 """CV Compiler - Convert Markdown CV to a beautiful static website."""
 
 import logging
+from datetime import datetime
 from pathlib import Path
 
 from .generator import generate_html, write_output
 from .parser import parse_cv
+from .sitemap import generate_sitemap, write_sitemap
 from .themes import Theme, list_available_themes, load_theme
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
@@ -77,6 +79,13 @@ def compile_cv(
     output_file = output_dir / "index.html"
     write_output(html, output_file)
     logger.info(f"✨ Generated {output_file}")
+
+    if cv.canonical_url:
+        logger.info("🗺️  Generating sitemap.xml...")
+        sitemap_xml = generate_sitemap(cv.canonical_url, datetime.now())
+        sitemap_file = output_dir / "sitemap.xml"
+        write_sitemap(sitemap_xml, sitemap_file)
+        logger.info(f"✨ Generated {sitemap_file}")
 
     return output_file
 
